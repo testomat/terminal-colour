@@ -1,0 +1,19 @@
+includes:
+    - %currentWorkingDirectory%/vendor/narrowspark/coding-standard/base_rules.neon
+
+parameters:
+    paths:
+        -  %currentWorkingDirectory%/../src
+        -  %currentWorkingDirectory%/../tests
+
+    bootstrap: %currentWorkingDirectory%/../vendor/autoload.php
+
+    autoload_directories:
+        - %currentWorkingDirectory%/../src
+        - %currentWorkingDirectory%/../tests
+
+    tmpDir: %currentWorkingDirectory%/phpstan
+
+    excludes_analyse:
+
+    ignoreErrors:

@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+use ChangelogGenerator\ChangelogConfig;
+
+return [
+    (new ChangelogConfig(
+        'narrowspark',
+        'php-library-template',
+        'v0.0.0',
+        ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security']
+    ))
+];
