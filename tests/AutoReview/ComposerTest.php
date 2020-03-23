@@ -8,12 +8,13 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
  *
- * @see https://github.com/narrowspark/php-library-template
+ * @see https://github.com/testomat/terminal-colour
  */
 
 namespace Narrowspark\Library\Tests\AutoReview;
 
 use PHPUnit\Framework\TestCase;
+use Testomat\TerminalColour\Formatter;
 
 /**
  * @internal
@@ -26,13 +27,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class ComposerTest extends TestCase
 {
-    /**
-     * Should be removed, And a class version should be used.
-     *
-     * @var string
-     */
-    private const VERSION = '1.0.0';
-
     public function testBranchAlias(): void
     {
         /** @var array<string, mixed> $composerJson */
@@ -51,7 +45,7 @@ final class ComposerTest extends TestCase
         }
 
         self::assertSame(
-            ['dev-master' => $this->convertAppVersionToAliasedVersion(self::VERSION)],
+            ['dev-master' => $this->convertAppVersionToAliasedVersion(Formatter::VERSION)],
             $composerJson['extra']['branch-alias']
         );
     }

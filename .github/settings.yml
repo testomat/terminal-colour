@@ -102,4 +102,4 @@ repository:
 
   # https://developer.github.com/v3/repos/branches/#remove-branch-protection
 
-  topics: "php, library, template, narrowspark"
+  topics: "php, library, narrowspark, testomat, color, terminal, colour, ansi, style"

@@ -1,11 +1,17 @@
 {
-    "name": "narrowspark/php-library-template",
+    "name": "testomat/terminal-colour",
     "type": "library",
     "description": "Provides a GitHub repository template for a Narrowspark PHP library, using GitHub actions.",
     "keywords": [
-        "narrowspark"
+        "narrowspark",
+        "testomat",
+        "color",
+        "terminal",
+        "colour",
+        "ansi",
+        "style"
     ],
-    "homepage": "http://github.com/narrowspark/php-library-template",
+    "homepage": "http://github.com/testomat/terminal-colour",
     "license": "MIT",
     "authors": [
         {
@@ -16,12 +22,13 @@
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.3",
+        "thecodingmachine/safe": "^1.0.3"
     },
     "require-dev": {
         "ext-json": "*",
         "phpunit/phpunit": "^9.0.1",
-        "johnkary/phpunit-speedtrap": "^3.2.0"
+        "thecodingmachine/safe": "^1.0.3"
     },
     "config": {
         "preferred-install": "dist",
@@ -39,7 +46,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Narrowspark\\Library\\": "src/"
+            "Testomat\\TerminalColour\\": "src/"
         },
         "exclude-from-classmap": [
             "/tests/"
@@ -47,7 +54,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Narrowspark\\Library\\Tests\\": "tests/"
+            "Testomat\\TerminalColour\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
@@ -69,7 +76,7 @@
         "post-update-cmd": "composer --working-dir=./.build update --lock"
     },
     "support": {
-        "issues": "https://github.com/narrowspark/php-library-template/issues",
-        "source": "https://github.com/narrowspark/php-library-template"
+        "issues": "https://github.com/testomat/terminal-colour/issues",
+        "source": "https://github.com/testomat/terminal-colour"
     }
 }
