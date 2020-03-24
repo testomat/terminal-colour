@@ -38,7 +38,7 @@ interface Style
     /**
      * Sets multiple style options at once.
      */
-    public function setOptions(array $options): void;
+    public function setEffects(array $options): void;
 
     /**
      * Applies the style to a given text.

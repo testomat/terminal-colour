@@ -27,49 +27,92 @@ use Testomat\TerminalColour\Style;
  */
 final class StyleTest extends TestCase
 {
-    public function testConstructor(): void
+    /**
+     * @dataProvider provideConstructorCases
+     */
+    public function testConstructor(?string $fg, ?string $bg, array $effects, string $expected): void
     {
-        $style = new Style('green', 'black', ['bold', 'underscore']);
-        self::assertEquals("\033[32;40;1;4mfoo\033[39;49;22;24m", $style->apply('foo'));
+        $style = new Style($fg, $bg, $effects);
 
-        $style = new Style('red', null, ['blink']);
-        self::assertEquals("\033[31;5mfoo\033[39;25m", $style->apply('foo'));
-
-        $style = new Style(null, 'white');
-        self::assertEquals("\033[47mfoo\033[49m", $style->apply('foo'));
+        self::assertEquals($expected, $style->apply('foo'));
     }
 
-    public function testForeground(): void
+    public static function provideConstructorCases(): iterable
+    {
+        return [
+            ['green', 'black', ['bold', 'underscore'], "\033[32;40;1;4mfoo\033[39;49;22;24m"],
+            ['red', null, ['blink'], "\033[31;5mfoo\033[39;25m"],
+            [null, 'white', [], "\033[47mfoo\033[49m"],
+        ];
+    }
+
+    /**
+     * @dataProvider provideForegroundCases
+     */
+    public function testForeground(?string $fg, string $expected): void
     {
         $style = new Style();
 
-        $style->setForeground('black');
-        self::assertEquals("\033[30mfoo\033[39m", $style->apply('foo'));
+        $style->setForeground($fg);
 
-        $style->setForeground('blue');
-        self::assertEquals("\033[34mfoo\033[39m", $style->apply('foo'));
-
-        $style->setForeground('default');
-        self::assertEquals("\033[39mfoo\033[39m", $style->apply('foo'));
+        self::assertEquals($expected, $style->apply('foo'));
 
         $this->expectException(InvalidArgumentException::class);
+
         $style->setForeground('undefined-color');
     }
 
-    public function testBackground(): void
+    public static function provideForegroundCases(): iterable
+    {
+        return [
+            ['black', "\033[30mfoo\033[39m"],
+            ['blue', "\033[34mfoo\033[39m"],
+            ['default', "\033[39mfoo\033[39m"],
+            [null, 'foo'],
+        ];
+    }
+
+    public function testForegroundThrowsException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $style = new Style();
+
+        $style->setForeground('undefined-color');
+    }
+
+    /**
+     * @dataProvider provideBackgroundCases
+     */
+    public function testBackground(?string $bg, string $expected): void
     {
         $style = new Style();
 
-        $style->setBackground('black');
-        self::assertEquals("\033[40mfoo\033[49m", $style->apply('foo'));
+        $style->setBackground($bg);
 
-        $style->setBackground('yellow');
-        self::assertEquals("\033[43mfoo\033[49m", $style->apply('foo'));
+        self::assertEquals($expected, $style->apply('foo'));
 
-        $style->setBackground('default');
-        self::assertEquals("\033[49mfoo\033[49m", $style->apply('foo'));
+        $this->expectException(InvalidArgumentException::class);
 
-        $this->expectException('InvalidArgumentException');
+        $style->setBackground('undefined-color');
+    }
+
+    public static function provideBackgroundCases(): iterable
+    {
+        return [
+            ['black', "\033[40mfoo\033[49m"],
+            ['yellow', "\033[43mfoo\033[49m"],
+            ['default', "\033[49mfoo\033[49m"],
+            [null, 'foo'],
+        ];
+    }
+
+    public function testBackgroundThrowsException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $style = new Style();
+
         $style->setBackground('undefined-color');
     }
 
@@ -77,7 +120,7 @@ final class StyleTest extends TestCase
     {
         $style = new Style();
 
-        $style->setOptions(['reverse', 'conceal']);
+        $style->setEffects(['reverse', 'conceal']);
         self::assertEquals("\033[7;8mfoo\033[27;28m", $style->apply('foo'));
 
         $style->setOption('bold');
@@ -89,7 +132,7 @@ final class StyleTest extends TestCase
         $style->setOption('bold');
         self::assertEquals("\033[8;1mfoo\033[28;22m", $style->apply('foo'));
 
-        $style->setOptions(['bold']);
+        $style->setEffects(['bold']);
         self::assertEquals("\033[1mfoo\033[22m", $style->apply('foo'));
 
         try {

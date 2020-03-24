@@ -13,13 +13,21 @@ declare(strict_types=1);
 
 namespace Testomat\TerminalColour;
 
+use Safe\Exceptions\StringsException;
 use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Contract\WrappableFormatter as WrappableFormatterContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 
+/**
+ * @noRector \Rector\SOLID\Rector\ClassMethod\ChangeReadOnlyVariableWithDefaultValueToConstantRector
+ */
 final class Formatter implements WrappableFormatterContract
 {
-    /** @var string */
+    /**
+     * @noRector \Rector\DeadCode\Rector\ClassConst\RemoveUnusedClassConstantRector
+     *
+     * @var string
+     */
     public const VERSION = '1.0.0';
 
     /** @var bool */
@@ -51,7 +59,7 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isDecorated(): bool
     {
@@ -59,7 +67,7 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDecorated(bool $decorated): void
     {
@@ -67,7 +75,9 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
+     * @codeCoverageIgnore
      */
     public function getStyleStack(): Stack
     {
@@ -104,7 +114,7 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setStyle(string $name, StyleContract $style): void
     {
@@ -112,7 +122,7 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasStyle(string $name): bool
     {
@@ -120,7 +130,7 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getStyle(string $name): StyleContract
     {
@@ -132,7 +142,7 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function format(?string $message): string
     {
@@ -140,9 +150,9 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function formatAndWrap(?string $message, int $width): string
+    public function formatAndWrap(string $message, int $width): string
     {
         $offset = 0;
         $output = '';
@@ -152,8 +162,7 @@ final class Formatter implements WrappableFormatterContract
         \Safe\preg_match_all("#<(({$tagRegex}) | /({$tagRegex})?)>#ix", $message, $matches, \PREG_OFFSET_CAPTURE);
 
         foreach ($matches[0] as $i => $match) {
-            $pos = $match[1];
-            $text = $match[0];
+            [$text, $pos] = $match;
 
             if ($pos !== 0 && $message[$pos - 1] === '\\') {
                 continue;
@@ -163,12 +172,7 @@ final class Formatter implements WrappableFormatterContract
             $output .= $this->applyCurrentStyle(\Safe\substr($message, $offset, $pos - $offset), $output, $width, $currentLineLength);
             $offset = $pos + \strlen($text);
 
-            // opening tag?
-            if ($open = ('/' !== $text[1])) {
-                $tag = $matches[1][$i][0];
-            } else {
-                $tag = $matches[3][$i][0] ?? '';
-            }
+            $tag = ($open = ('/' !== $text[1])) ? $matches[1][$i][0] : $matches[3][$i][0] ?? '';
 
             if (! $open && ! $tag) {
                 // </>
@@ -200,7 +204,7 @@ final class Formatter implements WrappableFormatterContract
             return $this->styles[$string];
         }
 
-        if (! \Safe\preg_match_all('/([^=]+)=([^;]+)(;|$)/', $string, $matches, \PREG_SET_ORDER)) {
+        if (\Safe\preg_match_all('/([^=]+)=([^;]+)(;|$)/', $string, $matches, \PREG_SET_ORDER) === 0) {
             return null;
         }
 
@@ -250,9 +254,14 @@ final class Formatter implements WrappableFormatterContract
         }
 
         if ($currentLineLength !== 0) {
-            $prefix = \Safe\substr($text, 0, $i = $width - $currentLineLength) . "\n";
-            $text = \Safe\substr($text, $i);
-            var_dump($text);
+            $i = $width - $currentLineLength;
+            $prefix = \Safe\substr($text, 0, $i) . "\n";
+
+            try {
+                $text = \Safe\substr($text, $i);
+            } catch (StringsException $exception) {
+                $text = '';
+            }
         } else {
             $prefix = '';
         }
@@ -262,7 +271,7 @@ final class Formatter implements WrappableFormatterContract
         $text = $prefix . \Safe\preg_replace('~([^\\n]{' . $width . '})\\ *~', "\$1\n", $text);
         $text = rtrim($text, "\n") . ($matches[1] ?? '');
 
-        if (! $currentLineLength && '' !== $current && "\n" !== \Safe\substr($current, -1)) {
+        if ($currentLineLength === 0 && $current !== '' && \Safe\substr($current, -1) !== "\n") {
             $text = "\n" . $text;
         }
 

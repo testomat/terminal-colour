@@ -17,13 +17,44 @@ use Testomat\TerminalColour\Exception\InvalidArgumentException;
 
 final class Util
 {
+    /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const NO_COLOR_TERMINAL = 0;
+
+    /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const COLOR_TERMINAL = 16;
+
+    /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const COLOR256_TERMINAL = 255;
+
+    /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const TRUECOLOR_TERMINAL = 65535;
+
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }
 
     public static function supportsColor($stream = null): int
     {
-        $colorSupport = 0;
+        $colorSupport = self::NO_COLOR_TERMINAL;
 
         if ($stream === false) {
             return $colorSupport;
@@ -38,15 +69,15 @@ final class Util
         }
 
         if (self::streamHasColorSupport($stream)) {
-            $colorSupport = 16;
+            $colorSupport = self::COLOR_TERMINAL;
 
             if (self::checkEnvVariable('TERM', '256color')
                 || self::checkEnvVariable('DOCKER_TERM', '256color')) {
-                $colorSupport = 255;
+                $colorSupport = self::COLOR256_TERMINAL;
             }
 
             if (self::checkEnvVariable('COLORTERM', 'truecolor')) {
-                $colorSupport = 65535;
+                $colorSupport = self::TRUECOLOR_TERMINAL;
             }
         }
 
@@ -77,6 +108,7 @@ final class Util
             return true;
         }
 
+        // @codeCoverageIgnoreStart
         if (\defined('PHP_WINDOWS_VERSION_BUILD')) {
             return (\function_exists('sapi_windows_vt100_support')
                     && \Safe\sapi_windows_vt100_support($output))
@@ -96,6 +128,7 @@ final class Util
         $stat = fstat($output);
         // Check if formatted mode is S_IFCHR
         return $stat && 0020000 === ($stat['mode'] & 0170000);
+        // @codeCoverageIgnoreEnd
     }
 
     private static function checkEnvVariable(string $varName, string $checkFor): bool

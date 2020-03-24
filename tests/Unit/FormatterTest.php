@@ -15,6 +15,7 @@ namespace Testomat\TerminalColour\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use Testomat\TerminalColour\Exception\InvalidArgumentException;
 use Testomat\TerminalColour\Formatter;
 use Testomat\TerminalColour\Style;
 use Testomat\TerminalColour\Tests\Fixture\TableCell;
@@ -22,12 +23,24 @@ use Testomat\TerminalColour\Tests\Fixture\TableCell;
 /**
  * @internal
  *
- * @covers \Testomat\TerminalColour\Stack
+ * @covers \Testomat\TerminalColour\Formatter
+ * @covers \Testomat\TerminalColour\Style
  *
  * @small
  */
 final class FormatterTest extends TestCase
 {
+    public function testDecorated(): void
+    {
+        $formatter = new Formatter();
+
+        self::assertFalse($formatter->isDecorated());
+
+        $formatter->setDecorated(true);
+
+        self::assertTrue($formatter->isDecorated());
+    }
+
     public function testEmptyTag(): void
     {
         $formatter = new Formatter(true);
@@ -72,6 +85,26 @@ final class FormatterTest extends TestCase
         self::assertEquals(
             "\033[33msome comment\033[39m",
             $formatter->format('<comment>some comment</comment>')
+        );
+        self::assertEquals(
+            "\033[30;46msome question\033[39;49m",
+            $formatter->format('<question>some question</question>')
+        );
+    }
+
+    public function testConstructCanAddMoreStyles(): void
+    {
+        $formatter = new Formatter(true, ['foo' => new Style('white', 'red')]);
+
+        self::assertTrue($formatter->hasStyle('foo'));
+        self::assertTrue($formatter->hasStyle('error'));
+        self::assertTrue($formatter->hasStyle('info'));
+        self::assertTrue($formatter->hasStyle('comment'));
+        self::assertTrue($formatter->hasStyle('question'));
+
+        self::assertEquals(
+            "\033[37;41msome foo\033[39;49m",
+            $formatter->format('<foo>some foo</foo>')
         );
         self::assertEquals(
             "\033[30;46msome question\033[39;49m",
@@ -232,6 +265,14 @@ final class FormatterTest extends TestCase
         self::assertEquals("\033[32msome \033[39m\033[32m<tag>\033[39m\033[32m \033[39m\033[32m<setting=value>\033[39m\033[32m styled \033[39m\033[32m<p>\033[39m\033[32msingle-char tag\033[39m\033[32m</p>\033[39m", $formatter->format('<info>some <tag> <setting=value> styled <p>single-char tag</p></info>'));
     }
 
+    public function testGetStyleThrowsException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $formatter = new Formatter(true);
+        $formatter->getStyle('foo');
+    }
+
     public function testFormatLongString(): void
     {
         $formatter = new Formatter(true);
@@ -278,6 +319,9 @@ final class FormatterTest extends TestCase
         }
     }
 
+    /**
+     * @return string[][]
+     */
     public static function provideNotDecoratedFormatterCases(): iterable
     {
         return [
@@ -346,25 +390,33 @@ EOF
             ));
     }
 
-    public function testFormatAndWrap(): void
+    /**
+     * @dataProvider provideFormatAndWrapCases
+     */
+    public function testFormatAndWrap(bool $decorated, string $expected, string $message, int $width): void
     {
-        $formatter = new Formatter(true);
+        $formatter = new Formatter($decorated);
 
-        self::assertSame("fo\no\e[37;41mb\e[39;49m\n\e[37;41mar\e[39;49m\nba\nz", $formatter->formatAndWrap('foo<error>bar</error> baz', 2));
-        self::assertSame("pr\ne \e[37;41m\e[39;49m\n\e[37;41mfo\e[39;49m\n\e[37;41mo \e[39;49m\n\e[37;41mba\e[39;49m\n\e[37;41mr \e[39;49m\n\e[37;41mba\e[39;49m\n\e[37;41mz\e[39;49m \npo\nst", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 2));
-        self::assertSame("pre\e[37;41m\e[39;49m\n\e[37;41mfoo\e[39;49m\n\e[37;41mbar\e[39;49m\n\e[37;41mbaz\e[39;49m\npos\nt", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 3));
-        self::assertSame("pre \e[37;41m\e[39;49m\n\e[37;41mfoo \e[39;49m\n\e[37;41mbar \e[39;49m\n\e[37;41mbaz\e[39;49m \npost", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 4));
-        self::assertSame("pre \e[37;41mf\e[39;49m\n\e[37;41moo ba\e[39;49m\n\e[37;41mr baz\e[39;49m\npost", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 5));
-        self::assertSame("Lore\nm \e[37;41mip\e[39;49m\n\e[37;41msum\e[39;49m \ndolo\nr \e[32msi\e[39m\n\e[32mt\e[39m am\net", $formatter->formatAndWrap('Lorem <error>ipsum</error> dolor <info>sit</info> amet', 4));
-        self::assertSame("Lorem \e[37;41mip\e[39;49m\n\e[37;41msum\e[39;49m dolo\nr \e[32msit\e[39m am\net", $formatter->formatAndWrap('Lorem <error>ipsum</error> dolor <info>sit</info> amet', 8));
-        self::assertSame("Lorem \e[37;41mipsum\e[39;49m dolor \e[32m\e[39m\n\e[32msit\e[39m, \e[37;41mamet\e[39;49m et \e[32mlauda\e[39m\n\e[32mntium\e[39m architecto", $formatter->formatAndWrap('Lorem <error>ipsum</error> dolor <info>sit</info>, <error>amet</error> et <info>laudantium</info> architecto', 18));
+        self::assertSame($expected, $formatter->formatAndWrap($message, $width));
+    }
 
-        $formatter = new Formatter();
+    public static function provideFormatAndWrapCases(): iterable
+    {
+        return [
+            [true, "fo\no\e[37;41mb\e[39;49m\n\e[37;41mar\e[39;49m\nba\nz", 'foo<error>bar</error> baz', 2],
+            [true, "pr\ne \e[37;41m\e[39;49m\n\e[37;41mfo\e[39;49m\n\e[37;41mo \e[39;49m\n\e[37;41mba\e[39;49m\n\e[37;41mr \e[39;49m\n\e[37;41mba\e[39;49m\n\e[37;41mz\e[39;49m \npo\nst", 'pre <error>foo bar baz</error> post', 2],
+            [true, "pre\e[37;41m\e[39;49m\n\e[37;41mfoo\e[39;49m\n\e[37;41mbar\e[39;49m\n\e[37;41mbaz\e[39;49m\npos\nt", 'pre <error>foo bar baz</error> post', 3],
+            [true, "pre \e[37;41m\e[39;49m\n\e[37;41mfoo \e[39;49m\n\e[37;41mbar \e[39;49m\n\e[37;41mbaz\e[39;49m \npost", 'pre <error>foo bar baz</error> post', 4],
+            [true, "pre \e[37;41mf\e[39;49m\n\e[37;41moo ba\e[39;49m\n\e[37;41mr baz\e[39;49m\npost", 'pre <error>foo bar baz</error> post', 5],
+            [true, "Lore\nm \e[37;41mip\e[39;49m\n\e[37;41msum\e[39;49m \ndolo\nr \e[32msi\e[39m\n\e[32mt\e[39m am\net", 'Lorem <error>ipsum</error> dolor <info>sit</info> amet', 4],
+            [true, "Lorem \e[37;41mip\e[39;49m\n\e[37;41msum\e[39;49m dolo\nr \e[32msit\e[39m am\net", 'Lorem <error>ipsum</error> dolor <info>sit</info> amet', 8],
+            [true, "Lorem \e[37;41mipsum\e[39;49m dolor \e[32m\e[39m\n\e[32msit\e[39m, \e[37;41mamet\e[39;49m et \e[32mlauda\e[39m\n\e[32mntium\e[39m architecto", 'Lorem <error>ipsum</error> dolor <info>sit</info>, <error>amet</error> et <info>laudantium</info> architecto', 18],
 
-        self::assertSame("fo\nob\nar\nba\nz", $formatter->formatAndWrap('foo<error>bar</error> baz', 2));
-        self::assertSame("pr\ne \nfo\no \nba\nr \nba\nz \npo\nst", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 2));
-        self::assertSame("pre\nfoo\nbar\nbaz\npos\nt", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 3));
-        self::assertSame("pre \nfoo \nbar \nbaz \npost", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 4));
-        self::assertSame("pre f\noo ba\nr baz\npost", $formatter->formatAndWrap('pre <error>foo bar baz</error> post', 5));
+            [false, "fo\nob\nar\nba\nz", 'foo<error>bar</error> baz', 2],
+            [false, "pr\ne \nfo\no \nba\nr \nba\nz \npo\nst", 'pre <error>foo bar baz</error> post', 2],
+            [false, "pre\nfoo\nbar\nbaz\npos\nt", 'pre <error>foo bar baz</error> post', 3],
+            [false, "pre \nfoo \nbar \nbaz \npost", 'pre <error>foo bar baz</error> post', 4],
+            [false, "pre f\noo ba\nr baz\npost", 'pre <error>foo bar baz</error> post', 5],
+        ];
     }
 }

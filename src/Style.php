@@ -16,10 +16,13 @@ namespace Testomat\TerminalColour;
 use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 
+/**
+ * @noRector \Rector\SOLID\Rector\ClassMethod\ChangeReadOnlyVariableWithDefaultValueToConstantRector
+ */
 final class Style implements StyleContract
 {
     /** @var array<string, int> */
-    private static $availableForegroundColors = [
+    private const AVAILABLE_FOREGROUND_COLORS = [
         'black' => ['set' => 30, 'unset' => 39],
         'red' => ['set' => 31, 'unset' => 39],
         'green' => ['set' => 32, 'unset' => 39],
@@ -32,7 +35,7 @@ final class Style implements StyleContract
     ];
 
     /** @var array<string, int> */
-    private static $availableBackgroundColors = [
+    private const AVAILABLE_BACKGROUND_COLORS = [
         'black' => ['set' => 40, 'unset' => 49],
         'red' => ['set' => 41, 'unset' => 49],
         'green' => ['set' => 42, 'unset' => 49],
@@ -45,7 +48,7 @@ final class Style implements StyleContract
     ];
 
     /** @var array<string, int> */
-    private static $availableOptions = [
+    private const AVAILABLE_EFFECTS = [
         'bold' => ['set' => 1, 'unset' => 22],
         'underscore' => ['set' => 4, 'unset' => 24],
         'blink' => ['set' => 5, 'unset' => 25],
@@ -63,12 +66,12 @@ final class Style implements StyleContract
     private $href;
 
     /** @var array */
-    private $options = [];
+    private $effects = [];
 
     /** @var null|bool */
     private $handlesHrefGracefully;
 
-    public function __construct(?string $foreground = null, ?string $background = null, array $options = [])
+    public function __construct(?string $foreground = null, ?string $background = null, array $effects = [])
     {
         if ($foreground !== null) {
             $this->setForeground($foreground);
@@ -78,13 +81,13 @@ final class Style implements StyleContract
             $this->setBackground($background);
         }
 
-        if (\count($options) !== 0) {
-            $this->setOptions($options);
+        if (\count($effects) !== 0) {
+            $this->setEffects($effects);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setForeground(?string $color = null): void
     {
@@ -94,15 +97,17 @@ final class Style implements StyleContract
             return;
         }
 
-        if (! isset(self::$availableForegroundColors[$color])) {
-            throw new InvalidArgumentException(\Safe\sprintf('Invalid foreground color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::$availableForegroundColors))));
+        if (! isset(self::AVAILABLE_FOREGROUND_COLORS[$color])) {
+            $message = \Safe\sprintf('Invalid foreground color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::AVAILABLE_FOREGROUND_COLORS)));
+
+            throw new InvalidArgumentException($message);
         }
 
-        $this->foreground = self::$availableForegroundColors[$color];
+        $this->foreground = self::AVAILABLE_FOREGROUND_COLORS[$color];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setBackground(?string $color = null): void
     {
@@ -112,15 +117,17 @@ final class Style implements StyleContract
             return;
         }
 
-        if (! isset(self::$availableBackgroundColors[$color])) {
-            throw new InvalidArgumentException(\Safe\sprintf('Invalid background color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::$availableBackgroundColors))));
+        if (! isset(self::AVAILABLE_BACKGROUND_COLORS[$color])) {
+            $message = \Safe\sprintf('Invalid background color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::AVAILABLE_BACKGROUND_COLORS)));
+
+            throw new InvalidArgumentException($message);
         }
 
-        $this->background = self::$availableBackgroundColors[$color];
+        $this->background = self::AVAILABLE_BACKGROUND_COLORS[$color];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setHref(string $url): void
     {
@@ -128,49 +135,53 @@ final class Style implements StyleContract
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setOptions(array $options): void
+    public function setEffects(array $effects): void
     {
-        $this->options = [];
+        $this->effects = [];
 
-        foreach ($options as $option) {
+        foreach ($effects as $option) {
             $this->setOption($option);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setOption(string $option): void
     {
-        if (! isset(self::$availableOptions[$option])) {
-            throw new InvalidArgumentException(\Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $option, implode(', ', array_keys(self::$availableOptions))));
+        if (! isset(self::AVAILABLE_EFFECTS[$option])) {
+            $message = \Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $option, implode(', ', array_keys(self::AVAILABLE_EFFECTS)));
+
+            throw new InvalidArgumentException($message);
         }
 
-        if (! \in_array(self::$availableOptions[$option], $this->options, true)) {
-            $this->options[] = self::$availableOptions[$option];
+        if (! \in_array(self::AVAILABLE_EFFECTS[$option], $this->effects, true)) {
+            $this->effects[] = self::AVAILABLE_EFFECTS[$option];
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function unsetOption(string $option): void
     {
-        if (! isset(self::$availableOptions[$option])) {
-            throw new InvalidArgumentException(\Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $option, implode(', ', array_keys(self::$availableOptions))));
+        if (! isset(self::AVAILABLE_EFFECTS[$option])) {
+            $message = \Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $option, implode(', ', array_keys(self::AVAILABLE_EFFECTS)));
+
+            throw new InvalidArgumentException($message);
         }
 
-        $pos = array_search(self::$availableOptions[$option], $this->options, true);
+        $pos = array_search(self::AVAILABLE_EFFECTS[$option], $this->effects, true);
 
         if (false !== $pos) {
-            unset($this->options[$pos]);
+            unset($this->effects[$pos]);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function apply(string $text): string
     {
@@ -191,7 +202,7 @@ final class Style implements StyleContract
             $unsetCodes[] = $this->background['unset'];
         }
 
-        foreach ($this->options as $option) {
+        foreach ($this->effects as $option) {
             $setCodes[] = $option['set'];
             $unsetCodes[] = $option['unset'];
         }

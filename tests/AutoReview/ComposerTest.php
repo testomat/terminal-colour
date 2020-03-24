@@ -11,7 +11,7 @@ declare(strict_types=1);
  * @see https://github.com/testomat/terminal-colour
  */
 
-namespace Narrowspark\Library\Tests\AutoReview;
+namespace Testomat\TerminalColour\Tests\AutoReview;
 
 use PHPUnit\Framework\TestCase;
 use Testomat\TerminalColour\Formatter;

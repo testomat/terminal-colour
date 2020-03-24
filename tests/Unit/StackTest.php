@@ -22,6 +22,7 @@ use Testomat\TerminalColour\Style;
  * @internal
  *
  * @covers \Testomat\TerminalColour\Stack
+ * @covers \Testomat\TerminalColour\Style
  *
  * @small
  */
@@ -38,6 +39,13 @@ final class StackTest extends TestCase
         $stack->push($s3 = new Style('green', 'red'));
 
         self::assertEquals($s3, $stack->getCurrent());
+    }
+
+    public function testGetCurrentShouldReturnEmptyStyle(): void
+    {
+        $stack = new Stack();
+
+        self::assertEquals(new Style(), $stack->getCurrent());
     }
 
     public function testPop(): void
