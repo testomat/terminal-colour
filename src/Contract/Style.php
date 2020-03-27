@@ -17,28 +17,37 @@ interface Style
 {
     /**
      * Sets style foreground color.
+     *
+     * @param null|int|string $color
      */
-    public function setForeground(?string $color = null): void;
+    public function setForeground($color = null): void;
 
     /**
      * Sets style background color.
+     *
+     * @param null|int|string $color
      */
-    public function setBackground(?string $color = null): void;
+    public function setBackground($color = null): void;
 
     /**
-     * Sets some specific style option.
+     * Sets some specific style effect.
      */
-    public function setOption(string $option): void;
+    public function setEffect($effect): void;
 
     /**
-     * Unsets some specific style option.
+     * Unsets some specific style effect.
      */
-    public function unsetOption(string $option): void;
+    public function unsetEffect($effect): void;
 
     /**
-     * Sets multiple style options at once.
+     * Sets multiple style effects at once.
      */
-    public function setEffects(array $options): void;
+    public function setEffects(array $effects): void;
+
+    /**
+     * Sets the supported color level of the terminal.
+     */
+    public function setColorLevel(int $color): void;
 
     /**
      * Applies the style to a given text.

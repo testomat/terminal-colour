@@ -16,6 +16,9 @@ namespace Testomat\TerminalColour;
 use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 
+/**
+ * @internal
+ */
 final class Stack
 {
     /** @var \Testomat\TerminalColour\Contract\Style[] */

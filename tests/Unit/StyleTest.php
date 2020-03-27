@@ -22,8 +22,9 @@ use Testomat\TerminalColour\Style;
  * @internal
  *
  * @covers \Testomat\TerminalColour\Style
+ * @covers \Testomat\TerminalColour\AbstractStyle
  *
- * @small
+ * @medium
  */
 final class StyleTest extends TestCase
 {
@@ -40,7 +41,7 @@ final class StyleTest extends TestCase
     public static function provideConstructorCases(): iterable
     {
         return [
-            ['green', 'black', ['bold', 'underscore'], "\033[32;40;1;4mfoo\033[39;49;22;24m"],
+            ['green', 'black', ['bold', 'underscore'], "\033[32;40;1;4mfoo\033[39;49;21;24m"],
             ['red', null, ['blink'], "\033[31;5mfoo\033[39;25m"],
             [null, 'white', [], "\033[47mfoo\033[49m"],
         ];
@@ -116,39 +117,46 @@ final class StyleTest extends TestCase
         $style->setBackground('undefined-color');
     }
 
-    public function testOptions(): void
+    public function testEffects(): void
     {
         $style = new Style();
 
         $style->setEffects(['reverse', 'conceal']);
-        self::assertEquals("\033[7;8mfoo\033[27;28m", $style->apply('foo'));
 
-        $style->setOption('bold');
-        self::assertEquals("\033[7;8;1mfoo\033[27;28;22m", $style->apply('foo'));
+        self::assertEquals("\033[7;8mfoo1\033[27;28m", $style->apply('foo1'));
 
-        $style->unsetOption('reverse');
-        self::assertEquals("\033[8;1mfoo\033[28;22m", $style->apply('foo'));
+        $style->setEffect('bold');
 
-        $style->setOption('bold');
-        self::assertEquals("\033[8;1mfoo\033[28;22m", $style->apply('foo'));
+        self::assertEquals("\033[7;8;1mfoo2\033[27;28;21m", $style->apply('foo2'));
+
+        $style->unsetEffect('reverse');
+
+        self::assertEquals("\033[8;1mfoo3\033[28;21m", $style->apply('foo3'));
+
+        $style->setEffect('bold');
+
+        self::assertEquals("\033[8;1mfoo4\033[28;21m", $style->apply('foo4'));
 
         $style->setEffects(['bold']);
-        self::assertEquals("\033[1mfoo\033[22m", $style->apply('foo'));
+
+        self::assertEquals("\033[1mfoo5\033[21m", $style->apply('foo5'));
 
         try {
-            $style->setOption('foo');
-            self::fail('->setOption() throws an \InvalidArgumentException when the option does not exist in the available options');
+            $style->setEffect('foo6');
+
+            self::fail('->setEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
         } catch (Exception $exception) {
-            self::assertInstanceOf(InvalidArgumentException::class, $exception, '->setOption() throws an \InvalidArgumentException when the option does not exist in the available options');
-            self::assertStringContainsString('Invalid option specified: [foo]', $exception->getMessage(), '->setOption() throws an \InvalidArgumentException when the option does not exist in the available options');
+            self::assertInstanceOf(InvalidArgumentException::class, $exception, '->setEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
+            self::assertStringContainsString('Invalid option specified: [foo6]', $exception->getMessage(), '->setEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
         }
 
         try {
-            $style->unsetOption('foo');
-            self::fail('->unsetOption() throws an \InvalidArgumentException when the option does not exist in the available options');
+            $style->unsetEffect('foo7');
+
+            self::fail('->unsetEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
         } catch (Exception $exception) {
-            self::assertInstanceOf(InvalidArgumentException::class, $exception, '->unsetOption() throws an \InvalidArgumentException when the option does not exist in the available options');
-            self::assertStringContainsString('Invalid option specified: [foo]', $exception->getMessage(), '->unsetOption() throws an \InvalidArgumentException when the option does not exist in the available options');
+            self::assertInstanceOf(InvalidArgumentException::class, $exception, '->unsetEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
+            self::assertStringContainsString('Invalid option specified: [foo7]', $exception->getMessage(), '->unsetEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
         }
     }
 

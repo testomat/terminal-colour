@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Testomat\TerminalColour;
 
+use Safe\Exceptions\MiscException;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 
 final class Util
@@ -52,7 +53,7 @@ final class Util
     {
     }
 
-    public static function supportsColor($stream = null): int
+    public static function getSupportedColor($stream = null): int
     {
         $colorSupport = self::NO_COLOR_TERMINAL;
 
@@ -104,25 +105,29 @@ final class Util
      */
     private static function streamHasColorSupport($output): bool
     {
-        if ('Hyper' === getenv('TERM_PROGRAM')) {
+        if (getenv('TERM_PROGRAM') === 'Hyper') {
             return true;
         }
 
         // @codeCoverageIgnoreStart
         if (\defined('PHP_WINDOWS_VERSION_BUILD')) {
-            return (\function_exists('sapi_windows_vt100_support')
-                    && \Safe\sapi_windows_vt100_support($output))
-                || false !== getenv('ANSICON')
-                || 'ON' === getenv('ConEmuANSI')
-                || 'xterm' === getenv('TERM');
+            try {
+                return (\function_exists('sapi_windows_vt100_support') && \Safe\sapi_windows_vt100_support($output))
+                    || getenv('ANSICON') !== false
+                    || getenv('ConEmuANSI') === 'ON'
+                    || getenv('TERM') === 'xterm';
+            } catch (MiscException $exception) {
+                return false;
+            }
         }
 
         if (\function_exists('stream_isatty')) {
-            return \Safe\stream_isatty($output);
+            /** @noRector \Rector\Renaming\Rector\Function_\RenameFunctionRector */
+            return @stream_isatty($output);
         }
 
         if (\function_exists('posix_isatty')) {
-            return posix_isatty($output);
+            return @posix_isatty($output);
         }
 
         $stat = fstat($output);

@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Testomat\TerminalColour;
 
-use Testomat\TerminalColour\Contract\Style as StyleContract;
+use Testomat\TerminalColour\Contract\Color16Aware as Color16AwareContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 
 /**
  * @noRector \Rector\SOLID\Rector\ClassMethod\ChangeReadOnlyVariableWithDefaultValueToConstantRector
  */
-final class Style implements StyleContract
+final class Style extends AbstractStyle implements Color16AwareContract
 {
     /** @var array<string, int> */
     private const AVAILABLE_FOREGROUND_COLORS = [
@@ -32,6 +32,15 @@ final class Style implements StyleContract
         'cyan' => ['set' => 36, 'unset' => 39],
         'white' => ['set' => 37, 'unset' => 39],
         'default' => ['set' => 39, 'unset' => 39],
+        'dark_grey' => ['set' => 90, 'unset' => 39],
+        'light_grey' => ['set' => 37, 'unset' => 39],
+        'light_red' => ['set' => 91, 'unset' => 39],
+        'light_green' => ['set' => 92, 'unset' => 39],
+        'light_yellow' => ['set' => 93, 'unset' => 39],
+        'light_blue' => ['set' => 94, 'unset' => 39],
+        'light_magenta' => ['set' => 95, 'unset' => 39],
+        'light_cyan' => ['set' => 96, 'unset' => 39],
+        'light_white' => ['set' => 97, 'unset' => 39],
     ];
 
     /** @var array<string, int> */
@@ -45,31 +54,16 @@ final class Style implements StyleContract
         'cyan' => ['set' => 46, 'unset' => 49],
         'white' => ['set' => 47, 'unset' => 49],
         'default' => ['set' => 49, 'unset' => 49],
+        'dark_grey' => ['set' => 100, 'unset' => 49],
+        'light_grey' => ['set' => 47, 'unset' => 49],
+        'light_red' => ['set' => 101, 'unset' => 49],
+        'light_green' => ['set' => 102, 'unset' => 49],
+        'light_yellow' => ['set' => 103, 'unset' => 49],
+        'light_blue' => ['set' => 104, 'unset' => 49],
+        'light_magenta' => ['set' => 105, 'unset' => 49],
+        'light_cyan' => ['set' => 106, 'unset' => 49],
+        'light_white' => ['set' => 107, 'unset' => 49],
     ];
-
-    /** @var array<string, int> */
-    private const AVAILABLE_EFFECTS = [
-        'bold' => ['set' => 1, 'unset' => 22],
-        'underscore' => ['set' => 4, 'unset' => 24],
-        'blink' => ['set' => 5, 'unset' => 25],
-        'reverse' => ['set' => 7, 'unset' => 27],
-        'conceal' => ['set' => 8, 'unset' => 28],
-    ];
-
-    /** @var null|array<string, int> */
-    private $foreground;
-
-    /** @var null|array<string, int> */
-    private $background;
-
-    /** @var null|string */
-    private $href;
-
-    /** @var array */
-    private $effects = [];
-
-    /** @var null|bool */
-    private $handlesHrefGracefully;
 
     public function __construct(?string $foreground = null, ?string $background = null, array $effects = [])
     {
@@ -89,8 +83,12 @@ final class Style implements StyleContract
     /**
      * {@inheritdoc}
      */
-    public function setForeground(?string $color = null): void
+    public function setForeground($color = null): void
     {
+        if (! \is_string($color) && $color !== null) {
+            throw new InvalidArgumentException(\Safe\sprintf('Expected null or string; received [%s].', \is_object($color) ? \get_class($color) : \gettype($color)));
+        }
+
         if ($color === null) {
             $this->foreground = null;
 
@@ -98,9 +96,7 @@ final class Style implements StyleContract
         }
 
         if (! isset(self::AVAILABLE_FOREGROUND_COLORS[$color])) {
-            $message = \Safe\sprintf('Invalid foreground color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::AVAILABLE_FOREGROUND_COLORS)));
-
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(\Safe\sprintf('Invalid foreground color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::AVAILABLE_FOREGROUND_COLORS))));
         }
 
         $this->foreground = self::AVAILABLE_FOREGROUND_COLORS[$color];
@@ -109,8 +105,12 @@ final class Style implements StyleContract
     /**
      * {@inheritdoc}
      */
-    public function setBackground(?string $color = null): void
+    public function setBackground($color = null): void
     {
+        if (! \is_string($color) && $color !== null) {
+            throw new InvalidArgumentException(\Safe\sprintf('Expected null or string; received [%s].', \is_object($color) ? \get_class($color) : \gettype($color)));
+        }
+
         if ($color === null) {
             $this->background = null;
 
@@ -118,103 +118,9 @@ final class Style implements StyleContract
         }
 
         if (! isset(self::AVAILABLE_BACKGROUND_COLORS[$color])) {
-            $message = \Safe\sprintf('Invalid background color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::AVAILABLE_BACKGROUND_COLORS)));
-
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(\Safe\sprintf('Invalid background color specified: [%s]. Expected one of [%s].', $color, implode(', ', array_keys(self::AVAILABLE_BACKGROUND_COLORS))));
         }
 
         $this->background = self::AVAILABLE_BACKGROUND_COLORS[$color];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setHref(string $url): void
-    {
-        $this->href = $url;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setEffects(array $effects): void
-    {
-        $this->effects = [];
-
-        foreach ($effects as $option) {
-            $this->setOption($option);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOption(string $option): void
-    {
-        if (! isset(self::AVAILABLE_EFFECTS[$option])) {
-            $message = \Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $option, implode(', ', array_keys(self::AVAILABLE_EFFECTS)));
-
-            throw new InvalidArgumentException($message);
-        }
-
-        if (! \in_array(self::AVAILABLE_EFFECTS[$option], $this->effects, true)) {
-            $this->effects[] = self::AVAILABLE_EFFECTS[$option];
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unsetOption(string $option): void
-    {
-        if (! isset(self::AVAILABLE_EFFECTS[$option])) {
-            $message = \Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $option, implode(', ', array_keys(self::AVAILABLE_EFFECTS)));
-
-            throw new InvalidArgumentException($message);
-        }
-
-        $pos = array_search(self::AVAILABLE_EFFECTS[$option], $this->effects, true);
-
-        if (false !== $pos) {
-            unset($this->effects[$pos]);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function apply(string $text): string
-    {
-        $setCodes = [];
-        $unsetCodes = [];
-
-        if (null === $this->handlesHrefGracefully) {
-            $this->handlesHrefGracefully = 'JetBrains-JediTerm' !== getenv('TERMINAL_EMULATOR') && ! getenv('KONSOLE_VERSION');
-        }
-
-        if ($this->foreground !== null) {
-            $setCodes[] = $this->foreground['set'];
-            $unsetCodes[] = $this->foreground['unset'];
-        }
-
-        if ($this->background !== null) {
-            $setCodes[] = $this->background['set'];
-            $unsetCodes[] = $this->background['unset'];
-        }
-
-        foreach ($this->effects as $option) {
-            $setCodes[] = $option['set'];
-            $unsetCodes[] = $option['unset'];
-        }
-
-        if ($this->href !== null && $this->handlesHrefGracefully) {
-            $text = "\033]8;;{$this->href}\033\\{$text}\033]8;;\033\\";
-        }
-
-        if (\count($setCodes) === 0) {
-            return $text;
-        }
-
-        return \Safe\sprintf("\033[%sm%s\033[%sm", implode(';', $setCodes), $text, implode(';', $unsetCodes));
     }
 }

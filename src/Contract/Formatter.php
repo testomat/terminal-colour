@@ -16,6 +16,11 @@ namespace Testomat\TerminalColour\Contract;
 interface Formatter
 {
     /**
+     * Returns 0, 16, 255, 65535 for the supported terminal colors.
+     */
+    public function getColorLevel(): int;
+
+    /**
      * Sets the decorated flag.
      */
     public function setDecorated(bool $decorated): void;

@@ -39,19 +39,28 @@ final class Formatter implements WrappableFormatterContract
     /** @var Stack */
     private $styleStack;
 
-    /*
-     * @param Style[] $styles Array of "name => Style" instances
+    /** @var int */
+    private $colorLevel;
+
+    /**
+     * @param Style[]       $styles Array of "name => Style" instances
+     * @param null|resource $stream
      */
-    public function __construct(bool $decorated = false, array $styles = [])
+    public function __construct(bool $decorated = false, array $styles = [], $stream = null)
     {
         $this->decorated = $decorated;
+        $this->colorLevel = Util::getSupportedColor($stream);
 
-        $this->setStyle('error', new Style('white', 'red'));
-        $this->setStyle('info', new Style('green'));
-        $this->setStyle('comment', new Style('yellow'));
-        $this->setStyle('question', new Style('black', 'cyan'));
+        $defaultStyles = [
+            'error' => new Style('white', 'red'),
+            'info' => new Style('green'),
+            'comment' => new Style('yellow'),
+            'question' => new Style('black', 'cyan'),
+        ];
 
-        foreach ($styles as $name => $style) {
+        foreach (array_merge($defaultStyles, $styles) as $name => $style) {
+            $style->setColorLevel($this->colorLevel);
+
             $this->setStyle($name, $style);
         }
 
@@ -82,6 +91,11 @@ final class Formatter implements WrappableFormatterContract
     public function getStyleStack(): Stack
     {
         return $this->styleStack;
+    }
+
+    public function getColorLevel(): int
+    {
+        return $this->colorLevel;
     }
 
     /**
@@ -198,7 +212,7 @@ final class Formatter implements WrappableFormatterContract
     /**
      * Tries to create new style instance from string.
      */
-    private function createStyleFromString(string $string): ?Style
+    private function createStyleFromString(string $string): ?StyleContract
     {
         if (isset($this->styles[$string])) {
             return $this->styles[$string];
@@ -212,6 +226,7 @@ final class Formatter implements WrappableFormatterContract
 
         foreach ($matches as $match) {
             array_shift($match);
+
             $match[0] = strtolower($match[0]);
 
             if ('fg' === $match[0]) {
@@ -221,13 +236,11 @@ final class Formatter implements WrappableFormatterContract
             } elseif ('href' === $match[0]) {
                 $style->setHref($match[1]);
             } elseif ('options' === $match[0]) {
-                \Safe\preg_match_all('([^,;]+)', strtolower($match[1]), $options);
+                \Safe\preg_match_all('([^,;]+)', strtolower($match[1]), $effects);
 
-                $options = array_shift($options);
+                $effects = array_shift($effects);
 
-                foreach ($options as $option) {
-                    $style->setOption($option);
-                }
+                $style->setEffects($effects);
             } else {
                 return null;
             }

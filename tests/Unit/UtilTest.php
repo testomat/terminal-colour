@@ -27,14 +27,14 @@ final class UtilTest extends TestCase
 {
     public function testSupportsColorWithFalseValue(): void
     {
-        self::assertSame(Util::NO_COLOR_TERMINAL, Util::supportsColor(false));
+        self::assertSame(Util::NO_COLOR_TERMINAL, Util::getSupportedColor(false));
     }
 
     public function testSupportsColorThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        Util::supportsColor('');
+        Util::getSupportedColor('');
     }
 
     public function testSupportsColorWithTermProgram(): void
@@ -43,7 +43,7 @@ final class UtilTest extends TestCase
 
         $stream = \Safe\fopen(sys_get_temp_dir(), 'r');
 
-        self::assertSame(Util::COLOR_TERMINAL, Util::supportsColor($stream));
+        self::assertSame(Util::COLOR_TERMINAL, Util::getSupportedColor($stream));
 
         \Safe\fclose($stream);
 
@@ -58,7 +58,7 @@ final class UtilTest extends TestCase
 
         $stream = \Safe\fopen(sys_get_temp_dir(), 'r');
 
-        self::assertSame(Util::COLOR256_TERMINAL, Util::supportsColor($stream));
+        self::assertSame(Util::COLOR256_TERMINAL, Util::getSupportedColor($stream));
 
         \Safe\fclose($stream);
 
@@ -75,7 +75,7 @@ final class UtilTest extends TestCase
 
         $stream = \Safe\fopen(sys_get_temp_dir(), 'r');
 
-        self::assertSame(Util::TRUECOLOR_TERMINAL, Util::supportsColor($stream));
+        self::assertSame(Util::TRUECOLOR_TERMINAL, Util::getSupportedColor($stream));
 
         \Safe\fclose($stream);
 

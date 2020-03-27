@@ -1,5 +1,5 @@
 imports:
-    - { resource: './vendor/thecodingmachine/safe/rector-migrate-0.6.yml' }
+    - { resource: './vendor/thecodingmachine/safe/rector-migrate-0.7.yml' }
 
 parameters:
     php_version_features: '7.3'

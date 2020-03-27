@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e18ec1900b31c00926f26bdabc16a561",
+    "content-hash": "189ca11326565989809562b2fa93d6d7",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1380,39 +1380,40 @@
         },
         {
             "name": "narrowspark/coding-standard",
-            "version": "4.0.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/narrowspark/coding-standard.git",
-                "reference": "568905eb8cb46d9c3b88ac2d4248252f0c661ba3"
+                "reference": "cd164ce8e1f19771febf238662fc8d97f02f7d53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/narrowspark/coding-standard/zipball/568905eb8cb46d9c3b88ac2d4248252f0c661ba3",
-                "reference": "568905eb8cb46d9c3b88ac2d4248252f0c661ba3",
+                "url": "https://api.github.com/repos/narrowspark/coding-standard/zipball/cd164ce8e1f19771febf238662fc8d97f02f7d53",
+                "reference": "cd164ce8e1f19771febf238662fc8d97f02f7d53",
                 "shasum": ""
             },
             "require": {
                 "ekino/phpstan-banned-code": "~0.3.1",
-                "felixfbecker/advanced-json-rpc": "^3.1.0",
-                "infection/infection": "~0.15.0",
+                "felixfbecker/advanced-json-rpc": "^3.1.1",
+                "infection/infection": "~0.15.3",
                 "jwage/changelog-generator": "~1.2.0",
                 "narrowspark/php-cs-fixer-config": "~6.0.0",
-                "php": "^7.2",
-                "phpstan/phpstan": "~0.12.11",
+                "php": "^7.3",
+                "phpstan/phpstan": "~0.12.18",
                 "phpstan/phpstan-deprecation-rules": "~0.12.2",
                 "phpstan/phpstan-mockery": "~0.12.3",
                 "phpstan/phpstan-phpunit": "~0.12.6",
                 "phpstan/phpstan-strict-rules": "~0.12.2",
                 "psalm/plugin-mockery": "~0.3.0",
                 "psalm/plugin-phpunit": "~0.8.0 || ~0.9.0",
+                "rector/rector": "~0.7.0",
                 "slam/phpstan-extensions": "~5.0.0",
                 "thecodingmachine/phpstan-strict-rules": "~0.12.0",
-                "vimeo/psalm": "^3.9.3"
+                "vimeo/psalm": "^3.10.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.0.0 || ^9.0.0",
-                "symfony/var-exporter": "^5.0.4"
+                "symfony/var-exporter": "^5.0.5"
             },
             "suggest": {
                 "phpstan/phpstan-doctrine": "doctrine extensions for PHPStan (*)",
@@ -1431,7 +1432,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "The Narrowspark Coding Standard for is a set of phpstan and php-cs-fixer rules applied to all Narrowspark projects.",
+            "description": "The Narrowspark Coding Standard is a set of phpstan, psalm, infection, rector and php-cs-fixer rules applied to all Narrowspark projects.",
             "homepage": "https://github.com/narrowspark/coding-standard",
             "keywords": [
                 "PHPStan",
@@ -1441,9 +1442,10 @@
                 "cs-fixer",
                 "narrowspark",
                 "php-cs-fixer",
-                "psalm"
+                "psalm",
+                "rector"
             ],
-            "time": "2020-02-21T08:25:30+00:00"
+            "time": "2020-03-25T13:19:20+00:00"
         },
         {
             "name": "narrowspark/php-cs-fixer-config",
@@ -3110,16 +3112,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.14",
+            "version": "0.12.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "37bdd26a80235d0f9045b49f4151102b7831cbe2"
+                "reference": "1ce27fe29c8660a27926127d350d53d80c4d4286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/37bdd26a80235d0f9045b49f4151102b7831cbe2",
-                "reference": "37bdd26a80235d0f9045b49f4151102b7831cbe2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1ce27fe29c8660a27926127d350d53d80c4d4286",
+                "reference": "1ce27fe29c8660a27926127d350d53d80c4d4286",
                 "shasum": ""
             },
             "require": {
@@ -3145,7 +3147,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2020-03-02T22:29:43+00:00"
+            "time": "2020-03-22T16:51:47+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -4116,16 +4118,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
-                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
                 "shasum": ""
             },
             "require": {
@@ -4159,7 +4161,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2019-11-01T11:05:21+00:00"
+            "time": "2020-03-23T09:12:05+00:00"
         },
         {
             "name": "rector/rector",
@@ -6509,12 +6511,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/auto-bind-parameter.git",
-                "reference": "8b85fc72fddc953feda56c3d06252eb1fafb21ef"
+                "reference": "e409eb8ed9ee6675e68f299661fa6b10db16d5bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/8b85fc72fddc953feda56c3d06252eb1fafb21ef",
-                "reference": "8b85fc72fddc953feda56c3d06252eb1fafb21ef",
+                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/e409eb8ed9ee6675e68f299661fa6b10db16d5bb",
+                "reference": "e409eb8ed9ee6675e68f299661fa6b10db16d5bb",
                 "shasum": ""
             },
             "require": {
@@ -6551,12 +6553,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/autowire-array-parameter.git",
-                "reference": "53ae1541e9eca16bd5bae95d627a442092933585"
+                "reference": "02adfac8b8a76e9505c460959279cb4521457039"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/53ae1541e9eca16bd5bae95d627a442092933585",
-                "reference": "53ae1541e9eca16bd5bae95d627a442092933585",
+                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/02adfac8b8a76e9505c460959279cb4521457039",
+                "reference": "02adfac8b8a76e9505c460959279cb4521457039",
                 "shasum": ""
             },
             "require": {
@@ -6593,12 +6595,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/package-builder.git",
-                "reference": "9d9b5f8f07058aaeb59ba53bfae52226b3b47236"
+                "reference": "30ec3d3a8fca73d440670a02fdd9963642a4f345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/package-builder/zipball/9d9b5f8f07058aaeb59ba53bfae52226b3b47236",
-                "reference": "9d9b5f8f07058aaeb59ba53bfae52226b3b47236",
+                "url": "https://api.github.com/repos/symplify/package-builder/zipball/30ec3d3a8fca73d440670a02fdd9963642a4f345",
+                "reference": "30ec3d3a8fca73d440670a02fdd9963642a4f345",
                 "shasum": ""
             },
             "require": {
@@ -6639,12 +6641,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/set-config-resolver.git",
-                "reference": "561486147349cb07b5692708748ece68c31bf041"
+                "reference": "28b51c95621749cbd8e84b1b71ddfae61d90e2be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/561486147349cb07b5692708748ece68c31bf041",
-                "reference": "561486147349cb07b5692708748ece68c31bf041",
+                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/28b51c95621749cbd8e84b1b71ddfae61d90e2be",
+                "reference": "28b51c95621749cbd8e84b1b71ddfae61d90e2be",
                 "shasum": ""
             },
             "require": {
@@ -6682,12 +6684,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/smart-file-system.git",
-                "reference": "9f6320c3b22c81e85f51aabf66c927bbf4d8c20f"
+                "reference": "fc491365b68dc32bf2a88b86182fea29b30d97fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/9f6320c3b22c81e85f51aabf66c927bbf4d8c20f",
-                "reference": "9f6320c3b22c81e85f51aabf66c927bbf4d8c20f",
+                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/fc491365b68dc32bf2a88b86182fea29b30d97fd",
+                "reference": "fc491365b68dc32bf2a88b86182fea29b30d97fd",
                 "shasum": ""
             },
             "require": {
@@ -6772,16 +6774,16 @@
         },
         {
             "name": "thecodingmachine/safe",
-            "version": "v1.0.3",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/safe.git",
-                "reference": "6662d0bef91fe5d44178cb2c38d51c5d16b65d23"
+                "reference": "f440677bad66c0ef42fa3f875bf05718028af5d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/6662d0bef91fe5d44178cb2c38d51c5d16b65d23",
-                "reference": "6662d0bef91fe5d44178cb2c38d51c5d16b65d23",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/f440677bad66c0ef42fa3f875bf05718028af5d3",
+                "reference": "f440677bad66c0ef42fa3f875bf05718028af5d3",
                 "shasum": ""
             },
             "require": {
@@ -6900,7 +6902,7 @@
                 "MIT"
             ],
             "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
-            "time": "2020-01-20T08:44:36+00:00"
+            "time": "2020-03-24T13:59:42+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -7017,16 +7019,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "3.9.5",
+            "version": "3.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "0cfe565d0afbcd31eadcc281b9017b5692911661"
+                "reference": "eeed5ecccc10131397f0eb7ee6da810c0be3a7fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/0cfe565d0afbcd31eadcc281b9017b5692911661",
-                "reference": "0cfe565d0afbcd31eadcc281b9017b5692911661",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/eeed5ecccc10131397f0eb7ee6da810c0be3a7fc",
+                "reference": "eeed5ecccc10131397f0eb7ee6da810c0be3a7fc",
                 "shasum": ""
             },
             "require": {
@@ -7109,7 +7111,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2020-03-09T22:59:56+00:00"
+            "time": "2020-03-23T11:40:30+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -7370,56 +7372,7 @@
             "time": "2019-11-13T19:16:13+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "johnkary/phpunit-speedtrap",
-            "version": "v3.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/johnkary/phpunit-speedtrap.git",
-                "reference": "8c0e149b80c6e86c33315f05699512678655c158"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/johnkary/phpunit-speedtrap/zipball/8c0e149b80c6e86c33315f05699512678655c158",
-                "reference": "8c0e149b80c6e86c33315f05699512678655c158",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JohnKary\\PHPUnit\\Listener\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "John Kary",
-                    "email": "john@johnkary.net"
-                }
-            ],
-            "description": "Find and report on slow tests in your PHPUnit test suite",
-            "homepage": "https://github.com/johnkary/phpunit-speedtrap",
-            "keywords": [
-                "phpunit",
-                "profile",
-                "slow"
-            ],
-            "time": "2020-02-12T16:19:51+00:00"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": [],

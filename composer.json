@@ -1,7 +1,7 @@
 {
     "name": "testomat/terminal-colour",
     "type": "library",
-    "description": "Provides a GitHub repository template for a Narrowspark PHP library, using GitHub actions.",
+    "description": "Return your terminal message in style! Change the text style, text color and text background color from the terminal, console or shell interface with ANSI color codes.",
     "keywords": [
         "narrowspark",
         "testomat",
@@ -9,7 +9,10 @@
         "terminal",
         "colour",
         "ansi",
-        "style"
+        "style",
+        "truecolor",
+        "color256",
+        "color16"
     ],
     "homepage": "http://github.com/testomat/terminal-colour",
     "license": "MIT",

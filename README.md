@@ -1,6 +1,10 @@
-# php-library-template
+# Terminal Colour
 
-Provides a GitHub repository template for a Narrowspark PHP library, using GitHub actions.
+* The easiest way to style your text in the command line / terminal
+* Change text color to red, green, yellow ...
+* Change background color to red, green, yellow ...
+* Change text style to bold, dim, underlined, blink ...
+* Has support for 0 , 16, 256 and true color ...
 
 ## Installation
 
@@ -9,12 +13,19 @@ Provides a GitHub repository template for a Narrowspark PHP library, using GitHu
 Run
 
 ```
-$ composer require narrowspark/php-library-template
+$ composer require testomat/terminal-colour
 ```
 
 ## Usage
 
 :bulb: This is a great place for showing a few usage examples!
+
+## Links
+[Colors 3/4 bit](https://en.wikipedia.org/wiki/ANSI_escape_code#3/4_bit)
+
+[XVilka/TrueColour.md](https://gist.github.com/XVilka/8346728)
+
+[Hyperlinks (a.k.a. HTML-like anchors) in terminal emulators](https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda)
 
 ## Versioning
 
