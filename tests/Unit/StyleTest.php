@@ -15,14 +15,15 @@ namespace Testomat\TerminalColour\Tests\Unit;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 use Testomat\TerminalColour\Style;
 
 /**
  * @internal
  *
- * @covers \Testomat\TerminalColour\Style
  * @covers \Testomat\TerminalColour\AbstractStyle
+ * @covers \Testomat\TerminalColour\Style
  *
  * @medium
  */
@@ -41,29 +42,24 @@ final class StyleTest extends TestCase
     public static function provideConstructorCases(): iterable
     {
         return [
-            ['green', 'black', ['bold', 'underscore'], "\033[32;40;1;4mfoo\033[39;49;21;24m"],
+            ['green', 'black', ['bold', 'underscore'], "\033[32;40;1;4mfoo\033[39;49;22;24m"],
             ['red', null, ['blink'], "\033[31;5mfoo\033[39;25m"],
             [null, 'white', [], "\033[47mfoo\033[49m"],
         ];
     }
 
     /**
-     * @dataProvider provideForegroundCases
+     * @dataProvider provideSetForegroundCases
      */
-    public function testForeground(?string $fg, string $expected): void
+    public function testSetForeground(?string $fg, string $expected): void
     {
         $style = new Style();
-
         $style->setForeground($fg);
 
         self::assertEquals($expected, $style->apply('foo'));
-
-        $this->expectException(InvalidArgumentException::class);
-
-        $style->setForeground('undefined-color');
     }
 
-    public static function provideForegroundCases(): iterable
+    public static function provideSetForegroundCases(): iterable
     {
         return [
             ['black', "\033[30mfoo\033[39m"],
@@ -73,32 +69,36 @@ final class StyleTest extends TestCase
         ];
     }
 
-    public function testForegroundThrowsException(): void
+    public function testSetForegroundWithInvalidColor(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid foreground color specified: [undefined-color]. Expected one of [black, red, green, yellow, blue, magenta, cyan, white, default, dark_grey, light_grey, light_red, light_green, light_yellow, light_blue, light_magenta, light_cyan, light_white].');
 
         $style = new Style();
-
         $style->setForeground('undefined-color');
     }
 
+    public function testSetForegroundWithInvalidValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected null or string; received [stdClass].');
+
+        $style = new Style();
+        $style->setForeground(new stdClass());
+    }
+
     /**
-     * @dataProvider provideBackgroundCases
+     * @dataProvider provideSetBackgroundCases
      */
-    public function testBackground(?string $bg, string $expected): void
+    public function testSetBackground(?string $bg, string $expected): void
     {
         $style = new Style();
-
         $style->setBackground($bg);
 
         self::assertEquals($expected, $style->apply('foo'));
-
-        $this->expectException(InvalidArgumentException::class);
-
-        $style->setBackground('undefined-color');
     }
 
-    public static function provideBackgroundCases(): iterable
+    public static function provideSetBackgroundCases(): iterable
     {
         return [
             ['black', "\033[40mfoo\033[49m"],
@@ -108,13 +108,23 @@ final class StyleTest extends TestCase
         ];
     }
 
-    public function testBackgroundThrowsException(): void
+    public function testSetBackgroundWithInvalidColor(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid background color specified: [undefined-color]. Expected one of [black, red, green, yellow, blue, magenta, cyan, white, default, dark_grey, light_grey, light_red, light_green, light_yellow, light_blue, light_magenta, light_cyan, light_white].');
 
         $style = new Style();
 
         $style->setBackground('undefined-color');
+    }
+
+    public function testSetBackgroundWithInvalidValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected null or string; received [stdClass].');
+
+        $style = new Style();
+        $style->setBackground(new stdClass());
     }
 
     public function testEffects(): void
@@ -127,19 +137,19 @@ final class StyleTest extends TestCase
 
         $style->setEffect('bold');
 
-        self::assertEquals("\033[7;8;1mfoo2\033[27;28;21m", $style->apply('foo2'));
+        self::assertEquals("\033[7;8;1mfoo2\033[27;28;22m", $style->apply('foo2'));
 
         $style->unsetEffect('reverse');
 
-        self::assertEquals("\033[8;1mfoo3\033[28;21m", $style->apply('foo3'));
+        self::assertEquals("\033[8;1mfoo3\033[28;22m", $style->apply('foo3'));
 
         $style->setEffect('bold');
 
-        self::assertEquals("\033[8;1mfoo4\033[28;21m", $style->apply('foo4'));
+        self::assertEquals("\033[8;1mfoo4\033[28;22m", $style->apply('foo4'));
 
         $style->setEffects(['bold']);
 
-        self::assertEquals("\033[1mfoo5\033[21m", $style->apply('foo5'));
+        self::assertEquals("\033[1mfoo5\033[22m", $style->apply('foo5'));
 
         try {
             $style->setEffect('foo6');
@@ -163,12 +173,14 @@ final class StyleTest extends TestCase
     public function testHref(): void
     {
         $prevTerminalEmulator = getenv('TERMINAL_EMULATOR');
+
         putenv('TERMINAL_EMULATOR');
 
         $style = new Style();
 
         try {
             $style->setHref('idea://open/?file=/path/SomeFile.php&line=12');
+
             self::assertSame("\e]8;;idea://open/?file=/path/SomeFile.php&line=12\e\\some URL\e]8;;\e\\", $style->apply('some URL'));
         } finally {
             putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator ? "={$prevTerminalEmulator}" : ''));

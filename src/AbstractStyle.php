@@ -25,8 +25,8 @@ abstract class AbstractStyle implements StyleContract
 {
     /** @var array<string, int> */
     private const AVAILABLE_EFFECTS = [
-        'none' => ['set' => 0, 'unset' => null],
-        'bold' => ['set' => 1, 'unset' => 21],
+        'none' => ['set' => 0, 'unset' => 0],
+        'bold' => ['set' => 1, 'unset' => 22],
         'dark' => ['set' => 2, 'unset' => 22],
         'italic' => ['set' => 3, 'unset' => 23],
         'underscore' => ['set' => 4, 'unset' => 24],
@@ -176,11 +176,11 @@ abstract class AbstractStyle implements StyleContract
         }
 
         if ($this->colorLevel >= Util::COLOR256_TERMINAL && ($this instanceof Color256AwareContract || $this instanceof TrueColorAwareContract) && \count($this->effects) === 0) {
-            if ($this->background === null && $this->foreground !== null && strpos($this->foreground['set'], '38;5') === false) {
+            if ($this->background === null && $this->foreground !== null && strpos((string) $this->foreground['set'], '38;5') === false) {
                 $setCodes = array_merge(['38;5'], $setCodes);
             }
 
-            if ($this->foreground === null && $this->background !== null && strpos($this->background['set'], '48;5') === false) {
+            if ($this->foreground === null && $this->background !== null && strpos((string) $this->background['set'], '48;5') === false) {
                 $setCodes = array_merge(['48;5'], $setCodes);
             }
         }

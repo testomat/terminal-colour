@@ -37,3 +37,9 @@ echo $formatter->format('<lagoon>This is "lagoon" text.</lagoon>') . \PHP_EOL . 
 echo $formatter->format('<blink>This text is light cyan and blinking.</blink>') . \PHP_EOL . \PHP_EOL;
 echo $formatter->format('<error>This is "error" text.</error>') . \PHP_EOL . \PHP_EOL;
 echo $formatter->format('<alert>This is "alert" text.</alert>') . \PHP_EOL . \PHP_EOL;
+
+// Start Hyperlink
+echo \PHP_EOL . 'Hyperlink:' . \PHP_EOL . \PHP_EOL;
+
+echo $formatter->format('<href=https://narrowspark.com>Narrowspark Homepage</>') . \PHP_EOL;
+// End Hyperlink

@@ -18,19 +18,19 @@ use Testomat\TerminalColour\StyleCode;
 use Testomat\TerminalColour\Util;
 
 $effects = [
-    'none' => ['set' => 0, 'unset' => null],
-    'bold' => ['set' => 1, 'unset' => 21],
-    'dark' => ['set' => 2, 'unset' => 22],
-    'italic' => ['set' => 3, 'unset' => 23],
-    'underscore' => ['set' => 4, 'unset' => 24],
-    'blink' => ['set' => 5, 'unset' => 25],
-    'blink_fast' => ['set' => 6, 'unset' => 25], // Limited support
-    'reverse' => ['set' => 7, 'unset' => 27],
-    'conceal' => ['set' => 8, 'unset' => 28],
-    'crossed_out' => ['set' => 9, 'unset' => 29],
-    'double_underline' => ['set' => 21, 'unset' => 24],
-    'curly_underline' => ['set' => '4:3', 'unset' => '4:0'], // Limited support
-    'overline' => ['set' => 53, 'unset' => 55], // Limited support
+    'none' => 0,
+    'bold' => 1,
+    'dark' => 2,
+    'italic' => 3,
+    'underscore' => 4,
+    'blink' => 5,
+    'blink_fast' => 6, // Limited support
+    'reverse' => 7,
+    'conceal' => 8,
+    'crossed_out' => 9,
+    'double_underline' => 21,
+    'curly_underline' => '4:3', // Limited support
+    'overline' => 53, // Limited support
 ];
 $fgColors = [
     'black',
@@ -87,8 +87,8 @@ for ($gray = 8; $gray < 256; $gray += 10) {
     $styles["bg_{$gray};{$gray};{$gray}"] = new StyleCode(null, "48;2;{$gray};{$gray};{$gray}");
 }
 
-foreach ($effects as $i) {
-    $styles["effect_{$i['set']}"] = new StyleCode(null, null, [$i]);
+foreach ($effects as $n => $i) {
+    $styles["effect_{$i}"] = new StyleCode(null, null, [$n]);
 }
 
 $styles['effect_21'] = new StyleCode(null, null, ['double_underline']);
@@ -104,19 +104,13 @@ $formatter = new Formatter($isColorSupported, $styles);
 echo \PHP_EOL . 'Effects:' . \PHP_EOL . \PHP_EOL;
 
 foreach ($effects as $name => $i) {
-    $text = str_pad('effect_' . $i['set'], 14, ' ', \STR_PAD_BOTH);
+    $text = str_pad('effect_' . $i, 14, ' ', \STR_PAD_BOTH);
 
-    echo $formatter->format("<effect_{$i['set']}>{$text}</effect_{$i['set']}>") . ' [' . str_pad((string) $i['set'], 4, ' ', \STR_PAD_LEFT) . '] ' . $name . (in_array($i['set'], [6, 9, 21], true) ? $formatter->format('<effect_2> (Not widely supported)</effect_2>') : '');
+    echo $formatter->format("<effect_{$i}>{$text}</>") . ' [' . str_pad((string) $i, 4, ' ', \STR_PAD_LEFT) . '] ' . $name . (in_array($i, [6, 9, 21], true) ? $formatter->format('<effect_2> (Not widely supported)</effect_2>') : '');
 
     echo \PHP_EOL;
 }
 // End Effects
-
-// Start Hyperlink
-echo \PHP_EOL . 'Hyperlink:' . \PHP_EOL . \PHP_EOL;
-
-echo $formatter->format('<href=https://narrowspark.com>Narrowspark Homepage</>') . \PHP_EOL;
-// End Hyperlink
 
 // Start Colors
 echo \PHP_EOL . sprintf('Colors are supported: %s' . \PHP_EOL, $isColorSupported ? 'YES' : 'NO');

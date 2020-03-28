@@ -22,6 +22,11 @@ use Testomat\TerminalColour\Exception\InvalidArgumentException;
  */
 final class StyleCode extends AbstractStyle implements Color256AwareContract, TrueColorAwareContract
 {
+    /**
+     * @param null|int|string                    $foreground
+     * @param null|int|string                    $background
+     * @param array<int, array<int, int>|string> $effects
+     */
     public function __construct($foreground = null, $background = null, array $effects = [])
     {
         if ($foreground !== null) {
