@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace Testomat\TerminalColour\Tests\Unit;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 use Testomat\TerminalColour\Style;
+use Testomat\TerminalColour\Tests\Unit\Traits\EffectsTestTrait;
 
 /**
  * @internal
@@ -29,6 +30,8 @@ use Testomat\TerminalColour\Style;
  */
 final class StyleTest extends TestCase
 {
+    use EffectsTestTrait;
+
     /**
      * @dataProvider provideConstructorCases
      */
@@ -127,49 +130,6 @@ final class StyleTest extends TestCase
         $style->setBackground(new stdClass());
     }
 
-    public function testEffects(): void
-    {
-        $style = new Style();
-
-        $style->setEffects(['reverse', 'conceal']);
-
-        self::assertEquals("\033[7;8mfoo1\033[27;28m", $style->apply('foo1'));
-
-        $style->setEffect('bold');
-
-        self::assertEquals("\033[7;8;1mfoo2\033[27;28;22m", $style->apply('foo2'));
-
-        $style->unsetEffect('reverse');
-
-        self::assertEquals("\033[8;1mfoo3\033[28;22m", $style->apply('foo3'));
-
-        $style->setEffect('bold');
-
-        self::assertEquals("\033[8;1mfoo4\033[28;22m", $style->apply('foo4'));
-
-        $style->setEffects(['bold']);
-
-        self::assertEquals("\033[1mfoo5\033[22m", $style->apply('foo5'));
-
-        try {
-            $style->setEffect('foo6');
-
-            self::fail('->setEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
-        } catch (Exception $exception) {
-            self::assertInstanceOf(InvalidArgumentException::class, $exception, '->setEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
-            self::assertStringContainsString('Invalid option specified: [foo6]', $exception->getMessage(), '->setEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
-        }
-
-        try {
-            $style->unsetEffect('foo7');
-
-            self::fail('->unsetEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
-        } catch (Exception $exception) {
-            self::assertInstanceOf(InvalidArgumentException::class, $exception, '->unsetEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
-            self::assertStringContainsString('Invalid option specified: [foo7]', $exception->getMessage(), '->unsetEffect() throws an \InvalidArgumentException when the option does not exist in the available options');
-        }
-    }
-
     public function testHref(): void
     {
         $prevTerminalEmulator = getenv('TERMINAL_EMULATOR');
@@ -185,5 +145,13 @@ final class StyleTest extends TestCase
         } finally {
             putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator ? "={$prevTerminalEmulator}" : ''));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getStyleInstance(): StyleContract
+    {
+        return new Style();
     }
 }

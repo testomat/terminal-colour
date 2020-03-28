@@ -93,6 +93,11 @@ final class Formatter implements WrappableFormatterContract
         return $this->styleStack;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @codeCoverageIgnore
+     */
     public function getColorLevel(): int
     {
         return $this->colorLevel;

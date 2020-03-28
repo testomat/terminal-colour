@@ -97,14 +97,14 @@ abstract class AbstractStyle implements StyleContract
 
         if (\is_string($effect)) {
             if (! isset(self::AVAILABLE_EFFECTS[$effect])) {
-                throw new InvalidArgumentException(\Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $effect, implode(', ', array_keys(self::AVAILABLE_EFFECTS))));
+                throw new InvalidArgumentException(\Safe\sprintf('Invalid effect specified: [%s]. Expected one of [%s].', $effect, implode(', ', array_keys(self::AVAILABLE_EFFECTS))));
             }
 
             if (! \in_array(self::AVAILABLE_EFFECTS[$effect], $this->effects, true)) {
                 $this->effects[] = self::AVAILABLE_EFFECTS[$effect];
             }
         } else {
-            if (! \array_key_exists('set', $effect) && ! \array_key_exists('unset', $effect)) {
+            if (! (\array_key_exists('set', $effect) && \array_key_exists('unset', $effect))) {
                 throw new InvalidArgumentException(\Safe\sprintf('Provided array is missing [set] or [unset] key; The array must look like [\'set\' => int, \'unset\' => int]; received [%s].', var_export($effect, true)));
             }
 
@@ -123,7 +123,7 @@ abstract class AbstractStyle implements StyleContract
 
         if (\is_string($effect)) {
             if (! isset(self::AVAILABLE_EFFECTS[$effect])) {
-                throw new InvalidArgumentException(\Safe\sprintf('Invalid option specified: [%s]. Expected one of [%s].', $effect, implode(', ', array_keys(self::AVAILABLE_EFFECTS))));
+                throw new InvalidArgumentException(\Safe\sprintf('Invalid effect specified: [%s]. Expected one of [%s].', $effect, implode(', ', array_keys(self::AVAILABLE_EFFECTS))));
             }
 
             /** @noRector \Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector */

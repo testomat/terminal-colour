@@ -15,8 +15,10 @@ namespace Testomat\TerminalColour\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 use Testomat\TerminalColour\StyleCode;
+use Testomat\TerminalColour\Tests\Unit\Traits\EffectsTestTrait;
 
 /**
  * @internal
@@ -28,6 +30,8 @@ use Testomat\TerminalColour\StyleCode;
  */
 final class StyleCodeTest extends TestCase
 {
+    use EffectsTestTrait;
+
     /**
      * @dataProvider provideConstructorCases
      */
@@ -126,5 +130,13 @@ final class StyleCodeTest extends TestCase
 
         $style = new StyleCode();
         $style->setBackground(new stdClass());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getStyleInstance(): StyleContract
+    {
+        return new StyleCode();
     }
 }
