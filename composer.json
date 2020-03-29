@@ -26,12 +26,11 @@
     ],
     "require": {
         "php": "^7.3",
-        "thecodingmachine/safe": "^1.0.3"
+        "thecodingmachine/safe": "^1.1.0"
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^9.0.1",
-        "thecodingmachine/safe": "^1.0.3"
+        "phpunit/phpunit": "^9.0.1"
     },
     "config": {
         "preferred-install": "dist",
