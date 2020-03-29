@@ -26,10 +26,12 @@
             "execution",
             "executed",
             "remain",
-            "execute"
+            "execute",
+            "color",
+            "colors"
         ]
     },
-    "@textlint-rule/preset-google": true,
+    "@textlint-rule/preset-google": false,
     "write-good": {
       "passive": false,
       "eprime": false,

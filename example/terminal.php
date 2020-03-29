@@ -117,6 +117,10 @@ echo \PHP_EOL . sprintf('Colors are supported: %s' . \PHP_EOL, $isColorSupported
 
 $isColor256Supported = $color >= Util::COLOR256_TERMINAL;
 
+echo \PHP_EOL . '16 colors are supported: ' . ($isColor256Supported ? 'YES' : 'NO') . \PHP_EOL;
+
+$isColor256Supported = $color >= Util::COLOR256_TERMINAL;
+
 echo \PHP_EOL . '256 colors are supported: ' . ($isColor256Supported ? 'YES' : 'NO') . \PHP_EOL;
 
 if ($isColor256Supported) {

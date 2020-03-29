@@ -84,8 +84,6 @@ final class Formatter implements WrappableFormatterContract
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @codeCoverageIgnore
      */
     public function getStyleStack(): Stack
@@ -240,7 +238,7 @@ final class Formatter implements WrappableFormatterContract
                 $style->setBackground(strtolower($match[1]));
             } elseif ('href' === $match[0]) {
                 $style->setHref($match[1]);
-            } elseif ('options' === $match[0]) {
+            } elseif ('effects' === $match[0]) {
                 \Safe\preg_match_all('([^,;]+)', strtolower($match[1]), $effects);
 
                 $effects = array_shift($effects);

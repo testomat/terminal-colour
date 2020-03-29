@@ -238,23 +238,10 @@ final class FormatterTest extends TestCase
             ['<unknown=_unknown_;a=1;b>'],
             ['<fg=green;>', "\033[32m[test]\033[39m", '[test]'],
             ['<fg=green;bg=blue;>', "\033[32;44ma\033[39;49m", 'a'],
-            ['<fg=green;options=bold>', "\033[32;1mb\033[39;22m", 'b'],
-            ['<fg=green;options=reverse;>', "\033[32;7m<a>\033[39;27m", '<a>'],
-            ['<fg=green;options=bold,underscore>', "\033[32;1;4mz\033[39;22;24m", 'z'],
-            ['<fg=green;options=bold,underscore,reverse;>', "\033[32;1;4;7md\033[39;22;24;27m", 'd'],
-        ];
-    }
-
-    /**
-     * @return iterable<string>
-     */
-    public function provideInlineStyleTagsWithUnknownOptions(): iterable
-    {
-        return [
-            ['<options=abc;>', 'abc'],
-            ['<options=abc,def;>', 'abc'],
-            ['<fg=green;options=xyz;>', 'xyz'],
-            ['<fg=green;options=efg,abc>', 'efg'],
+            ['<fg=green;effects=bold>', "\033[32;1mb\033[39;22m", 'b'],
+            ['<fg=green;effects=reverse;>', "\033[32;7m<a>\033[39;27m", '<a>'],
+            ['<fg=green;effects=bold,underscore>', "\033[32;1;4mz\033[39;22;24m", 'z'],
+            ['<fg=green;effects=bold,underscore,reverse;>', "\033[32;1;4;7md\033[39;22;24;27m", 'd'],
         ];
     }
 

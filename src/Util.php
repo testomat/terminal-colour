@@ -47,12 +47,8 @@ final class Util
     public const TRUECOLOR_TERMINAL = 65535;
 
     /**
-     * @codeCoverageIgnore
+     * @param false|null|resource|string $stream
      */
-    private function __construct()
-    {
-    }
-
     public static function getSupportedColor($stream = null): int
     {
         $colorSupport = self::NO_COLOR_TERMINAL;
