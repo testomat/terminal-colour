@@ -94,13 +94,15 @@ final class FormatterTest extends TestCase
 
     public function testConstructCanAddMoreStyles(): void
     {
-        $formatter = new Formatter(true, ['foo' => new Style('white', 'red')]);
+        $formatter = new Formatter(true, ['foo' => new Style('white', 'red'), 'BaR' => new Style('white', 'red')]);
 
         self::assertTrue($formatter->hasStyle('foo'));
         self::assertTrue($formatter->hasStyle('error'));
         self::assertTrue($formatter->hasStyle('info'));
         self::assertTrue($formatter->hasStyle('comment'));
         self::assertTrue($formatter->hasStyle('question'));
+        self::assertTrue($formatter->hasStyle('Question')); // transformed to lower case
+        self::assertTrue($formatter->hasStyle('bar')); // transformed to lower case
 
         self::assertEquals(
             "\033[37;41msome foo\033[39;49m",
@@ -198,6 +200,7 @@ final class FormatterTest extends TestCase
         $formatter = new Formatter(true);
 
         self::assertEquals("\033[34;41msome text\033[39;49m", $formatter->format('<fg=blue;bg=red>some text</>'));
+        self::assertEquals("\033[34;41msome text\033[39;49m", $formatter->format('<fg=Blue;bg=Red>some text</>'));
         self::assertEquals("\033[34;41msome text\033[39;49m", $formatter->format('<fg=blue;bg=red>some text</fg=blue;bg=red>'));
     }
 
@@ -239,6 +242,7 @@ final class FormatterTest extends TestCase
             ['<fg=green;>', "\033[32m[test]\033[39m", '[test]'],
             ['<fg=green;bg=blue;>', "\033[32;44ma\033[39;49m", 'a'],
             ['<fg=green;effects=bold>', "\033[32;1mb\033[39;22m", 'b'],
+            ['<fg=green;effects=Bold>', "\033[32;1mb\033[39;22m", 'b'],
             ['<fg=green;effects=reverse;>', "\033[32;7m<a>\033[39;27m", '<a>'],
             ['<fg=green;effects=bold,underscore>', "\033[32;1;4mz\033[39;22;24m", 'z'],
             ['<fg=green;effects=bold,underscore,reverse;>', "\033[32;1;4;7md\033[39;22;24;27m", 'd'],
@@ -409,5 +413,15 @@ EOF
             [false, "pre \nfoo \nbar \nbaz \npost", 'pre <error>foo bar baz</error> post', 4],
             [false, "pre f\noo ba\nr baz\npost", 'pre <error>foo bar baz</error> post', 5],
         ];
+    }
+
+    public function testEscapeTrailingBackslash(): void
+    {
+        self::assertSame('test\tesa', Formatter::escapeTrailingBackslash('test\\tesa'));
+    }
+
+    public function testEscape(): void
+    {
+        self::assertSame('<test\>tesa', Formatter::escapeTrailingBackslash('<test\\>tesa'));
     }
 }

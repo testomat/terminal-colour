@@ -85,4 +85,16 @@ final class StackTest extends TestCase
         $stack->push(new Style('white', 'black'));
         $stack->pop(new Style('yellow', 'blue'));
     }
+
+    public function testReset(): void
+    {
+        $stack = new Stack();
+        $stack->push(new Style('white', 'black'));
+
+        $stack->reset();
+
+        $style = new Style();
+
+        self::assertEquals($style, $stack->pop());
+    }
 }

@@ -41,7 +41,7 @@ final class UtilTest extends TestCase
     {
         \Safe\putenv('TERM_PROGRAM=Hyper');
 
-        $stream = \Safe\fopen(sys_get_temp_dir(), 'r');
+        $stream = \Safe\fopen(__DIR__, 'r');
 
         self::assertSame(Util::COLOR_TERMINAL, Util::getSupportedColor($stream));
 
@@ -56,7 +56,7 @@ final class UtilTest extends TestCase
         \Safe\putenv('TERM_PROGRAM=Hyper');
         \Safe\putenv('TERM=256color');
 
-        $stream = \Safe\fopen(sys_get_temp_dir(), 'r');
+        $stream = \Safe\fopen(__DIR__, 'r');
 
         self::assertSame(Util::COLOR256_TERMINAL, Util::getSupportedColor($stream));
 
@@ -73,7 +73,7 @@ final class UtilTest extends TestCase
         \Safe\putenv('TERM_PROGRAM=Hyper');
         \Safe\putenv('COLORTERM=truecolor');
 
-        $stream = \Safe\fopen(sys_get_temp_dir(), 'r');
+        $stream = \Safe\fopen(__DIR__, 'r');
 
         self::assertSame(Util::TRUECOLOR_TERMINAL, Util::getSupportedColor($stream));
 
