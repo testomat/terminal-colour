@@ -2088,35 +2088,35 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.5.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "1d32342b8c1eb27353c8887c366147b4c2da673c"
+                "reference": "651c372efc914aea8223e049f85afaf65e09ba23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/1d32342b8c1eb27353c8887c366147b4c2da673c",
-                "reference": "1d32342b8c1eb27353c8887c366147b4c2da673c",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/651c372efc914aea8223e049f85afaf65e09ba23",
+                "reference": "651c372efc914aea8223e049f85afaf65e09ba23",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0.0",
-                "php": "^7.3.0"
+                "composer-plugin-api": "^1.1.0",
+                "php": "^7.4.0"
             },
             "require-dev": {
-                "composer/composer": "^1.8.6",
-                "doctrine/coding-standard": "^6.0.0",
-                "ext-zip": "*",
-                "infection/infection": "^0.13.4",
-                "phpunit/phpunit": "^8.2.5",
-                "vimeo/psalm": "^3.4.9"
+                "composer/composer": "^1.9.3",
+                "doctrine/coding-standard": "^7.0.2",
+                "ext-zip": "^1.15.0",
+                "infection/infection": "^0.15.3",
+                "phpunit/phpunit": "^9.0.1",
+                "vimeo/psalm": "^3.9.3"
             },
             "type": "composer-plugin",
             "extra": {
                 "class": "PackageVersions\\Installer",
                 "branch-alias": {
-                    "dev-master": "1.6.x-dev"
+                    "dev-master": "1.99.x-dev"
                 }
             },
             "autoload": {
@@ -2135,7 +2135,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2019-07-17T15:49:50+00:00"
+            "time": "2020-03-06T11:34:16+00:00"
         },
         {
             "name": "ondram/ci-detector",
@@ -6511,12 +6511,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/auto-bind-parameter.git",
-                "reference": "e409eb8ed9ee6675e68f299661fa6b10db16d5bb"
+                "reference": "ac4d0fff0159becdf0044641b9eb48e89afe1480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/e409eb8ed9ee6675e68f299661fa6b10db16d5bb",
-                "reference": "e409eb8ed9ee6675e68f299661fa6b10db16d5bb",
+                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/ac4d0fff0159becdf0044641b9eb48e89afe1480",
+                "reference": "ac4d0fff0159becdf0044641b9eb48e89afe1480",
                 "shasum": ""
             },
             "require": {
@@ -6553,12 +6553,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/autowire-array-parameter.git",
-                "reference": "02adfac8b8a76e9505c460959279cb4521457039"
+                "reference": "e36a0d7e2e4b0a3764c192ac9cca1b2860255eda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/02adfac8b8a76e9505c460959279cb4521457039",
-                "reference": "02adfac8b8a76e9505c460959279cb4521457039",
+                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/e36a0d7e2e4b0a3764c192ac9cca1b2860255eda",
+                "reference": "e36a0d7e2e4b0a3764c192ac9cca1b2860255eda",
                 "shasum": ""
             },
             "require": {
@@ -6595,12 +6595,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/package-builder.git",
-                "reference": "30ec3d3a8fca73d440670a02fdd9963642a4f345"
+                "reference": "1cddbbfa94c1d78a380c6b3996d09eb7c5710560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/package-builder/zipball/30ec3d3a8fca73d440670a02fdd9963642a4f345",
-                "reference": "30ec3d3a8fca73d440670a02fdd9963642a4f345",
+                "url": "https://api.github.com/repos/symplify/package-builder/zipball/1cddbbfa94c1d78a380c6b3996d09eb7c5710560",
+                "reference": "1cddbbfa94c1d78a380c6b3996d09eb7c5710560",
                 "shasum": ""
             },
             "require": {
@@ -6641,12 +6641,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/set-config-resolver.git",
-                "reference": "28b51c95621749cbd8e84b1b71ddfae61d90e2be"
+                "reference": "03f58a1cfcb0018c833a0b8d7210ebf652b5d3f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/28b51c95621749cbd8e84b1b71ddfae61d90e2be",
-                "reference": "28b51c95621749cbd8e84b1b71ddfae61d90e2be",
+                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/03f58a1cfcb0018c833a0b8d7210ebf652b5d3f1",
+                "reference": "03f58a1cfcb0018c833a0b8d7210ebf652b5d3f1",
                 "shasum": ""
             },
             "require": {
@@ -6684,12 +6684,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/smart-file-system.git",
-                "reference": "fc491365b68dc32bf2a88b86182fea29b30d97fd"
+                "reference": "d81f1b5ffa083713c49e0308e0f94be7ff4b55fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/fc491365b68dc32bf2a88b86182fea29b30d97fd",
-                "reference": "fc491365b68dc32bf2a88b86182fea29b30d97fd",
+                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/d81f1b5ffa083713c49e0308e0f94be7ff4b55fc",
+                "reference": "d81f1b5ffa083713c49e0308e0f94be7ff4b55fc",
                 "shasum": ""
             },
             "require": {
@@ -7378,10 +7378,6 @@
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {
-        "php": "^7.3"
-    },
-    "platform-dev": {
-        "ext-json": "*"
-    }
+    "platform": [],
+    "platform-dev": []
 }
