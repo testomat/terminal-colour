@@ -25,7 +25,7 @@
         "write-good": "^1.0.2"
     },
     "devDependencies": {
-        "minimist": ">=1.2.2"
+        "minimist": ">=1.2.5"
     },
     "scripts": {
         "lint": "textlint ./.build/ISSUE_TEMPLATE/** ./src/** ./docs/** ./README.md ./UPGRADE.md --dry-run",
