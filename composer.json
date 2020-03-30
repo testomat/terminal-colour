@@ -62,7 +62,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "changelog": "composer --working-dir=./.build changelog-generator",
+        "changelog": "composer --working-dir=./.build changelog",
         "coverage": [
             "phpunit --dump-xdebug-filter=./.build/phpunit/.xdebug-filter.php",
             "phpunit --prepend=./.build/phpunit/.xdebug-filter.php --coverage-html=./.build/phpunit/coverage"
