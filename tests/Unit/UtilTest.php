@@ -37,30 +37,34 @@ final class UtilTest extends TestCase
         Util::getSupportedColor('');
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSupportsColorWithTermProgram(): void
     {
+        $term = getenv('TERM');
+
         \Safe\putenv('TERM_PROGRAM=Hyper');
 
-        $stream = \Safe\fopen(__DIR__, 'r');
+        \Safe\putenv('TERM=');
+        \Safe\putenv('TERM');
 
-        self::assertSame(Util::COLOR_TERMINAL, Util::getSupportedColor($stream));
+        self::assertSame(Util::COLOR_TERMINAL, Util::getSupportedColor(\STDOUT));
 
-        \Safe\fclose($stream);
-
+        \Safe\putenv('TERM='.$term);
         \Safe\putenv('TERM_PROGRAM=');
         \Safe\putenv('TERM_PROGRAM');
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSupportsColorWithTermProgramAndTerm(): void
     {
         \Safe\putenv('TERM_PROGRAM=Hyper');
         \Safe\putenv('TERM=256color');
 
-        $stream = \Safe\fopen(__DIR__, 'r');
-
-        self::assertSame(Util::COLOR256_TERMINAL, Util::getSupportedColor($stream));
-
-        \Safe\fclose($stream);
+        self::assertSame(Util::COLOR256_TERMINAL, Util::getSupportedColor(\STDOUT));
 
         \Safe\putenv('TERM_PROGRAM=');
         \Safe\putenv('TERM_PROGRAM');
@@ -68,16 +72,15 @@ final class UtilTest extends TestCase
         \Safe\putenv('TERM');
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSupportsColorWithTermProgramAndColorTerm(): void
     {
         \Safe\putenv('TERM_PROGRAM=Hyper');
         \Safe\putenv('COLORTERM=truecolor');
 
-        $stream = \Safe\fopen(__DIR__, 'r');
-
-        self::assertSame(Util::TRUECOLOR_TERMINAL, Util::getSupportedColor($stream));
-
-        \Safe\fclose($stream);
+        self::assertSame(Util::TRUECOLOR_TERMINAL, Util::getSupportedColor(\STDOUT));
 
         \Safe\putenv('TERM_PROGRAM=');
         \Safe\putenv('TERM_PROGRAM');
