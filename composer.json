@@ -1,11 +1,20 @@
 {
-    "name": "narrowspark/php-library-template",
+    "name": "testomat/terminal-colour",
     "type": "library",
-    "description": "Provides a GitHub repository template for a Narrowspark PHP library, using GitHub actions.",
+    "description": "Return your terminal message in style! Change the text style, text color and text background color from the terminal, console or shell interface with ANSI color codes.",
     "keywords": [
-        "narrowspark"
+        "narrowspark",
+        "testomat",
+        "color",
+        "terminal",
+        "colour",
+        "ansi",
+        "style",
+        "truecolor",
+        "color256",
+        "color16"
     ],
-    "homepage": "http://github.com/narrowspark/php-library-template",
+    "homepage": "http://github.com/testomat/terminal-colour",
     "license": "MIT",
     "authors": [
         {
@@ -16,12 +25,12 @@
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.3",
+        "thecodingmachine/safe": "^1.1.0"
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^9.0.1",
-        "johnkary/phpunit-speedtrap": "^3.2.0"
+        "phpunit/phpunit": "^9.0.1"
     },
     "config": {
         "preferred-install": "dist",
@@ -39,7 +48,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Narrowspark\\Library\\": "src/"
+            "Testomat\\TerminalColour\\": "src/"
         },
         "exclude-from-classmap": [
             "/tests/"
@@ -47,7 +56,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Narrowspark\\Library\\Tests\\": "tests/"
+            "Testomat\\TerminalColour\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
@@ -63,13 +72,17 @@
         "phpstan": "composer --working-dir=./.build phpstan -- --memory-limit=-1",
         "psalm": "composer --working-dir=./.build psalm",
         "psalm:fix": "composer --working-dir=./.build psalm:fix",
-        "infection": "composer --working-dir=./.build infection -- --min-covered-msi=100 --min-msi=100",
+        "infection": "composer --working-dir=./.build infection -- --min-covered-msi=90 --min-msi=89",
+        "rector-src": "composer --working-dir=./.build rector-src",
+        "rector-src:fix": "composer --working-dir=./.build rector-src:fix",
+        "rector-tests": "composer --working-dir=./.build rector-tests",
+        "rector-tests:fix": "composer --working-dir=./.build rector-tests:fix",
         "test": "phpunit",
         "post-install-cmd": "composer --working-dir=./.build install --lock",
         "post-update-cmd": "composer --working-dir=./.build update --lock"
     },
     "support": {
-        "issues": "https://github.com/narrowspark/php-library-template/issues",
-        "source": "https://github.com/narrowspark/php-library-template"
+        "issues": "https://github.com/testomat/terminal-colour/issues",
+        "source": "https://github.com/testomat/terminal-colour"
     }
 }

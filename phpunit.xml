@@ -39,15 +39,12 @@
         </testsuite>
     </testsuites>
 
-    <listeners>
-        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
-    </listeners>
-
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./</directory>
             <exclude>
                 <directory>./.build</directory>
+                <directory>./example</directory>
                 <directory>./vendor</directory>
                 <directory>./tests</directory>
             </exclude>

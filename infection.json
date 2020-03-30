@@ -18,6 +18,10 @@
         "TrueValue": false,
         "IncrementInteger": false,
         "DecrementInteger": false,
-        "ArrayItemRemoval": false
+        "ArrayItemRemoval": false,
+        "LogicalAnd": false,
+        "LogicalOr": false,
+        "Identical": false,
+        "NotIdentical": false
     }
 }

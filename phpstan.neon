@@ -2,6 +2,8 @@ includes:
     - %currentWorkingDirectory%/vendor/narrowspark/coding-standard/base_rules.neon
 
 parameters:
+    treatPhpDocTypesAsCertain: false
+
     paths:
         -  %currentWorkingDirectory%/../src
         -  %currentWorkingDirectory%/../tests
@@ -17,3 +19,28 @@ parameters:
     excludes_analyse:
 
     ignoreErrors:
+        - '#should end with "Interface" suffix#'
+
+        - '#Parameter \#1 \$effects of method Testomat\\TerminalColour\\AbstractStyle\:\:setEffects\(\) expects#'
+
+        -
+            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
+            path: src/StyleCode.php
+
+        -
+            message: '#Only booleans are allowed in \&\&\, void given on the right side#'
+            path: src/Util.php
+        -
+            message: '#Result of function Safe\\sapi_windows_vt100_support \(void\) is used#'
+            path: src/Util.php
+        -
+            message: '#Right side of \&\& is always false#'
+            path: src/Util.php
+
+        # stdClass is used for test
+        - '#Parameter \#1 \$effect of method Testomat\\TerminalColour\\Contract\\Style\:\:setEffect\(\) expects array\<string\, int\|string>\|string\, stdClass given#'
+        - '#Parameter \#1 \$effect of method Testomat\\TerminalColour\\Contract\\Style\:\:unsetEffect\(\) expects array\<string\, int\|string>\|string\, stdClass given#'
+        - '#Parameter \#1 \$color of method Testomat\\TerminalColour\\Style\:\:setForeground\(\) expects int\|string\|null\, stdClass given#'
+        - '#Parameter \#1 \$color of method Testomat\\TerminalColour\\Style\:\:setBackground\(\) expects int\|string\|null\, stdClass given#'
+        - '#Parameter \#1 \$color of method Testomat\\TerminalColour\\StyleCode\:\:setForeground\(\) expects int\|string\|null\, stdClass given#'
+        - '#Parameter \#1 \$color of method Testomat\\TerminalColour\\StyleCode\:\:setBackground\(\) expects int\|string\|null\, stdClass given#'

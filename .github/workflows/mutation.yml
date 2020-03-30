@@ -20,12 +20,12 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.4.2"]
+        php-versions: ["7.3"]
 
     env:
       key: "mutation-v1" # change key (version) to clear cache
-      min-covered-msi: 100
-      min-msi: 100
+      min-covered-msi: 90
+      min-msi: 89
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, pcov.directory=api"
       tools: "composer, composer-prefetcher, cs2pr"
@@ -51,7 +51,7 @@ jobs:
           restore-keys: ${{ steps.cache-env.outputs.key }}
 
       - name: "Setup PHP"
-        uses: shivammathur/setup-php@2.0.0
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ${{ env.extensions }}
