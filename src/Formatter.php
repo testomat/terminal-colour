@@ -286,8 +286,11 @@ final class Formatter implements WrappableFormatterContract
 
         \Safe\preg_match('~(\\n)$~', $text, $matches);
 
-        /** @var string $replacedText */ /** @noRector \Rector\DeadCode\Rector\Concat\RemoveConcatAutocastRector */
-        $replacedText = \Safe\preg_replace('~([^\\n]{' . (string) $width . '})\\ *~', "\$1\n", $text);
+        /** @noRector \Rector\DeadCode\Rector\Concat\RemoveConcatAutocastRector */
+        $stringWidth = (string) $width;
+
+        /** @var string $replacedText */
+        $replacedText = \Safe\preg_replace('~([^\\n]{' . $stringWidth . '})\\ *~', "\$1\n", $text);
 
         $text = $prefix . $replacedText;
         $text = rtrim($text, "\n") . ($matches[1] ?? '');
