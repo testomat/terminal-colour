@@ -10,7 +10,7 @@
     findUnusedCode='true'
     findUnusedVariablesAndParams='true'
     strictBinaryOperands='true'
-    totallyTyped='false'
+    totallyTyped='true'
     usePhpDocMethodsWithoutMagicCall='true'
 >
     <plugins>
@@ -51,12 +51,12 @@
         <InvalidDocblock errorLevel="error"/>
         <MisplacedRequiredParam errorLevel="error"/>
 
-        <PropertyNotSetInConstructor errorLevel="suppress"/>
+        <PropertyNotSetInConstructor errorLevel="error"/>
         <MissingConstructor errorLevel="error"/>
         <MissingClosureParamType errorLevel="error"/>
         <MissingParamType errorLevel="error"/>
         <RedundantCondition errorLevel="error"/>
-        <DocblockTypeContradiction errorLevel="error"/>
+        <DocblockTypeContradiction errorLevel="suppress"/>
         <RedundantConditionGivenDocblockType errorLevel="error"/>
         <RawObjectIteration errorLevel="error"/>
         <InvalidStringClass errorLevel="error"/>

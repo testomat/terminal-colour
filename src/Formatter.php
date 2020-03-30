@@ -190,7 +190,7 @@ final class Formatter implements WrappableFormatterContract
             $output .= $this->applyCurrentStyle(\Safe\substr($message, $offset, $pos - $offset), $output, $width, $currentLineLength);
             $offset = $pos + \strlen($text);
 
-            $tag = ($open = ('/' !== $text[1])) ? $matches[1][$i][0] : $matches[3][$i][0] ?? '';
+            $tag = ($open = ($text[1] !== '/')) ? $matches[1][$i][0] : $matches[3][$i][0] ?? '';
 
             if (! $open && ! $tag) {
                 // </>
