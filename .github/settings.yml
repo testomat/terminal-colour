@@ -91,15 +91,15 @@ repository:
   archived: false
   default_branch: master
   delete_branch_on_merge: true
-  description: "Provides a GitHub repository template for a Narrowspark PHP library, using GitHub actions."
+  description: ":art: Return your terminal message in style! Change the text style, text color and text background color from the terminal, console or shell interface with ANSI color codes."
   has_downloads: true
   has_issues: true
   has_pages: false
   has_projects: false
   has_wiki: false
-  name: "php-library-template"
+  name: "terminal-highlighter"
   private: false
 
   # https://developer.github.com/v3/repos/branches/#remove-branch-protection
 
-  topics: "php, library, template, narrowspark"
+  topics: "php, library, narrowspark, testomat, color, terminal, colour, ansi, style"

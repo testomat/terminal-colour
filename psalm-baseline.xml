@@ -1,2 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.7.2@d9cae720c1af31db9ba27c2bc1fcf9b0dd092fb0"/>
+<files psalm-version="3.10.1@eeed5ecccc10131397f0eb7ee6da810c0be3a7fc">
+  <file src="src/AbstractStyle.php">
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>\is_array($effect)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Contract/Formatter.php">
+    <PossiblyUnusedMethod occurrences="1">
+      <code>getColorLevel</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Formatter.php">
+    <MixedArgument occurrences="6">
+      <code>$offset</code>
+      <code>$pos - $offset</code>
+      <code>$text</code>
+      <code>$tag</code>
+      <code>$text</code>
+      <code>$offset</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$text[1]</code>
+      <code>$matches[1][$i]</code>
+    </MixedArrayAccess>
+    <MixedArrayOffset occurrences="1">
+      <code>$message[$pos - 1]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="4">
+      <code>$match</code>
+      <code>[$text, $pos]</code>
+      <code>$offset</code>
+      <code>$tag</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>?StyleContract</code>
+    </MixedInferredReturnType>
+    <MixedOperand occurrences="4">
+      <code>$pos</code>
+      <code>$pos</code>
+      <code>$pos</code>
+      <code>$matches[1] ?? ''</code>
+    </MixedOperand>
+    <PossiblyNullArrayAccess occurrences="2">
+      <code>$matches[0]</code>
+      <code>$matches[1]</code>
+    </PossiblyNullArrayAccess>
+    <PossiblyNullIterator occurrences="1">
+      <code>$matches</code>
+    </PossiblyNullIterator>
+    <PossiblyUnusedMethod occurrences="1">
+      <code>getStyleStack</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Style.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$effects</code>
+    </InvalidScalarArgument>
+    <MissingParamType occurrences="2">
+      <code>$color</code>
+      <code>$color</code>
+    </MissingParamType>
+    <MixedArgument occurrences="2">
+      <code>$color</code>
+      <code>$color</code>
+    </MixedArgument>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>Style</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>\gettype($color)</code>
+      <code>\gettype($color)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/StyleCode.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$effects</code>
+    </InvalidScalarArgument>
+    <MissingParamType occurrences="2">
+      <code>$color</code>
+      <code>$color</code>
+    </MissingParamType>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>StyleCode</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Util.php">
+    <MixedArgument occurrences="1">
+      <code>$stream</code>
+    </MixedArgument>
+    <MixedOperand occurrences="1">
+      <code>$stat['mode']</code>
+    </MixedOperand>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>\gettype($stream)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="tests/Unit/FormatterTest.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable&lt;array&lt;int, string&gt;&gt;</code>
+    </MixedInferredReturnType>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>testFormatAndWrap</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullOperand occurrences="3">
+      <code>$input</code>
+      <code>$input</code>
+      <code>$input</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="tests/Unit/StyleCodeTest.php">
+    <InvalidArgument occurrences="3">
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
+      <code>testConstructor</code>
+    </InvalidArgument>
+    <PossiblyInvalidArgument occurrences="3">
+      <code>testConstructor</code>
+      <code>testSetForeground</code>
+      <code>testSetBackground</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="tests/Unit/StyleTest.php">
+    <InvalidArgument occurrences="3">
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
+      <code>testConstructor</code>
+    </InvalidArgument>
+    <PossiblyInvalidArgument occurrences="3">
+      <code>testConstructor</code>
+      <code>testSetForeground</code>
+      <code>testSetBackground</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="tests/Unit/Traits/EffectsTestTrait.php">
+    <InvalidArgument occurrences="2">
+      <code>new stdClass()</code>
+      <code>new stdClass()</code>
+    </InvalidArgument>
+  </file>
+</files>

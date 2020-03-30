@@ -13,10 +13,6 @@
     totallyTyped='true'
     usePhpDocMethodsWithoutMagicCall='true'
 >
-    <issueHandlers>
-        <LessSpecificReturnType errorLevel="info" />
-    </issueHandlers>
-
     <plugins>
         <pluginClass class="Psalm\MockeryPlugin\Plugin" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />
@@ -55,12 +51,12 @@
         <InvalidDocblock errorLevel="error"/>
         <MisplacedRequiredParam errorLevel="error"/>
 
-        <PropertyNotSetInConstructor errorLevel="suppress"/>
+        <PropertyNotSetInConstructor errorLevel="error"/>
         <MissingConstructor errorLevel="error"/>
         <MissingClosureParamType errorLevel="error"/>
         <MissingParamType errorLevel="error"/>
         <RedundantCondition errorLevel="error"/>
-        <DocblockTypeContradiction errorLevel="error"/>
+        <DocblockTypeContradiction errorLevel="suppress"/>
         <RedundantConditionGivenDocblockType errorLevel="error"/>
         <RawObjectIteration errorLevel="error"/>
         <InvalidStringClass errorLevel="error"/>
