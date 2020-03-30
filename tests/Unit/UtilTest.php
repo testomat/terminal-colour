@@ -51,7 +51,10 @@ final class UtilTest extends TestCase
 
         self::assertSame(Util::COLOR_TERMINAL, Util::getSupportedColor(\STDOUT));
 
-        \Safe\putenv('TERM='.$term);
+        /**
+         * @noRector \Rector\DeadCode\Rector\Concat\RemoveConcatAutocastRector
+         */
+        \Safe\putenv('TERM=' . (string) $term);
         \Safe\putenv('TERM_PROGRAM=');
         \Safe\putenv('TERM_PROGRAM');
     }
