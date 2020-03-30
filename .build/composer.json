@@ -23,7 +23,7 @@
         }
     },
     "scripts": {
-        "changelog": "changelog-generator generate --config=\"./../.changelog\" --file --prepend",
+        "changelog": "changelog-generator generate --config=\"./../.changelog\" --file=./../CHANGELOG.md --prepend",
         "cs": "php-cs-fixer fix --config=\"./../.php_cs\" --ansi",
         "cs:check": "php-cs-fixer fix --config=\"./../.php_cs\" --ansi --dry-run",
         "phpstan": "phpstan analyse -c ./../phpstan.neon --ansi",

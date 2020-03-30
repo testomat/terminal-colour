@@ -6,9 +6,9 @@ use ChangelogGenerator\ChangelogConfig;
 
 return [
     (new ChangelogConfig(
-        'narrowspark',
-        'php-library-template',
-        'v0.0.0',
+        'testomat',
+        'terminal-colour',
+        'v' . \Testomat\TerminalColour\Formatter::VERSION,
         ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security']
     ))
 ];
