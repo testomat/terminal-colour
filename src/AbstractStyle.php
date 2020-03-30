@@ -23,7 +23,7 @@ use Testomat\TerminalColour\Exception\InvalidArgumentException;
  */
 abstract class AbstractStyle implements StyleContract
 {
-    /** @var array<string, int> */
+    /** @var array<string, int|string> */
     private const AVAILABLE_EFFECTS = [
         'none' => ['set' => 0, 'unset' => 0],
         'bold' => ['set' => 1, 'unset' => 22],
@@ -40,16 +40,18 @@ abstract class AbstractStyle implements StyleContract
         'overline' => ['set' => 53, 'unset' => 55], // Limited support
     ];
 
-    /** @var null|int */
+    /** @var null|array<string, int|string> */
     protected $foreground;
 
-    /** @var null|int */
+    /** @var null|array<string, int|string> */
     protected $background;
 
     /** @var null|string */
     protected $href;
 
-    /** @var array<string, int> */
+    /**
+     * @var array<int, array<string, int|string>>
+     */
     protected $effects = [];
 
     /** @var null|bool */
@@ -91,10 +93,6 @@ abstract class AbstractStyle implements StyleContract
      */
     final public function setEffect($effect): void
     {
-        if (! \is_string($effect) && ! \is_array($effect)) {
-            throw new InvalidArgumentException(\Safe\sprintf('Expected array or string; received [%s].', \is_object($effect) ? \get_class($effect) : \gettype($effect)));
-        }
-
         if (\is_string($effect)) {
             if (! isset(self::AVAILABLE_EFFECTS[$effect])) {
                 throw new InvalidArgumentException(\Safe\sprintf('Invalid effect specified: [%s]. Expected one of [%s].', $effect, implode(', ', array_keys(self::AVAILABLE_EFFECTS))));
@@ -103,13 +101,21 @@ abstract class AbstractStyle implements StyleContract
             if (! \in_array(self::AVAILABLE_EFFECTS[$effect], $this->effects, true)) {
                 $this->effects[] = self::AVAILABLE_EFFECTS[$effect];
             }
-        } else {
+
+            return;
+        }
+
+        if (\is_array($effect)) {
             if (! (\array_key_exists('set', $effect) && \array_key_exists('unset', $effect))) {
                 throw new InvalidArgumentException(\Safe\sprintf('Provided array is missing [set] or [unset] key; The array must look like [\'set\' => int, \'unset\' => int]; received [%s].', var_export($effect, true)));
             }
 
             $this->effects[] = $effect;
+
+            return;
         }
+
+        throw new InvalidArgumentException(\Safe\sprintf('Expected array or string; received [%s].', \is_object($effect) ? \get_class($effect) : \gettype($effect)));
     }
 
     /**
@@ -146,7 +152,7 @@ abstract class AbstractStyle implements StyleContract
     final public function apply(string $text): string
     {
         if ($this->handlesHrefGracefully === null) {
-            $this->handlesHrefGracefully = getenv('TERMINAL_EMULATOR') !== 'JetBrains-JediTerm' && ! getenv('KONSOLE_VERSION');
+            $this->handlesHrefGracefully = getenv('TERMINAL_EMULATOR') !== 'JetBrains-JediTerm' && getenv('KONSOLE_VERSION') !== false;
         }
 
         $setCodes = [];

@@ -89,6 +89,11 @@ trait EffectsTestTrait
         $style->setEffect($effect);
     }
 
+    /**
+     * @psalm-return iterable<array-key, array<array-key, string>>
+     *
+     * @return iterable<int, array<int, string>>
+     */
     public static function provideSetEffectToThrowExceptionOnInvalidEffectArrayCases(): iterable
     {
         return [

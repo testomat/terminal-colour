@@ -10,13 +10,9 @@
     findUnusedCode='true'
     findUnusedVariablesAndParams='true'
     strictBinaryOperands='true'
-    totallyTyped='true'
+    totallyTyped='false'
     usePhpDocMethodsWithoutMagicCall='true'
 >
-    <issueHandlers>
-        <LessSpecificReturnType errorLevel="info" />
-    </issueHandlers>
-
     <plugins>
         <pluginClass class="Psalm\MockeryPlugin\Plugin" />
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin" />

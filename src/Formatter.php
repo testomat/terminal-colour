@@ -33,7 +33,7 @@ final class Formatter implements WrappableFormatterContract
     /** @var bool */
     private $decorated;
 
-    /** @var array<int, Style> */
+    /** @var array<string, \Testomat\TerminalColour\Contract\Style> */
     private $styles = [];
 
     /** @var Stack */
@@ -43,8 +43,8 @@ final class Formatter implements WrappableFormatterContract
     private $colorLevel;
 
     /**
-     * @param Style[]       $styles Array of "name => Style" instances
-     * @param null|resource $stream
+     * @param array<string, \Testomat\TerminalColour\Contract\Style> $styles Array of "name => Style" instances
+     * @param null|resource                                          $stream
      */
     public function __construct(bool $decorated = false, array $styles = [], $stream = null)
     {
@@ -108,6 +108,7 @@ final class Formatter implements WrappableFormatterContract
      */
     public static function escape(string $text): string
     {
+        /** @var string $text */
         $text = \Safe\preg_replace('/([^\\\\]?)</', '$1\\<', $text);
 
         return self::escapeTrailingBackslash($text);
@@ -161,7 +162,7 @@ final class Formatter implements WrappableFormatterContract
     /**
      * {@inheritdoc}
      */
-    public function format(?string $message): string
+    public function format(string $message): string
     {
         return $this->formatAndWrap($message, 0);
     }
@@ -178,7 +179,7 @@ final class Formatter implements WrappableFormatterContract
 
         \Safe\preg_match_all("#<(({$tagRegex}) | /({$tagRegex})?)>#ix", $message, $matches, \PREG_OFFSET_CAPTURE);
 
-        foreach ($matches[0] as $i => $match) {
+        foreach ((array) $matches[0] as $i => $match) {
             [$text, $pos] = $match;
 
             if ($pos !== 0 && $message[$pos - 1] === '\\') {
@@ -284,7 +285,10 @@ final class Formatter implements WrappableFormatterContract
 
         \Safe\preg_match('~(\\n)$~', $text, $matches);
 
-        $text = $prefix . \Safe\preg_replace('~([^\\n]{' . $width . '})\\ *~', "\$1\n", $text);
+        /** @var string $replacedText */
+        $replacedText = \Safe\preg_replace('~([^\\n]{' . (string) $width . '})\\ *~', "\$1\n", $text);
+
+        $text = $prefix . $replacedText;
         $text = rtrim($text, "\n") . ($matches[1] ?? '');
 
         if ($currentLineLength === 0 && $current !== '' && \Safe\substr($current, -1) !== "\n") {

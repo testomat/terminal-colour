@@ -2,9 +2,11 @@ includes:
     - %currentWorkingDirectory%/vendor/narrowspark/coding-standard/base_rules.neon
 
 parameters:
+    treatPhpDocTypesAsCertain: false
+
     paths:
         -  %currentWorkingDirectory%/../src
-        -  %currentWorkingDirectory%/../tests
+#        -  %currentWorkingDirectory%/../tests
 
     bootstrap: %currentWorkingDirectory%/../vendor/autoload.php
 
@@ -17,3 +19,18 @@ parameters:
     excludes_analyse:
 
     ignoreErrors:
+        - '#should end with "Interface" suffix#'
+
+        -
+            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
+            path: src/StyleCode.php
+
+        -
+            message: '#Only booleans are allowed in \&\&\, void given on the right side#'
+            path: src/Util.php
+        -
+            message: '#Result of function Safe\\sapi_windows_vt100_support \(void\) is used#'
+            path: src/Util.php
+        -
+            message: '#Right side of \&\& is always false#'
+            path: src/Util.php

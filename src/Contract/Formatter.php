@@ -54,5 +54,5 @@ interface Formatter
     /**
      * Formats a message according to the given styles.
      */
-    public function format(?string $message): string;
+    public function format(string $message): string;
 }

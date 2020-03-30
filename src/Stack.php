@@ -21,7 +21,7 @@ use Testomat\TerminalColour\Exception\InvalidArgumentException;
  */
 final class Stack
 {
-    /** @var \Testomat\TerminalColour\Contract\Style[] */
+    /** @var array<int, \Testomat\TerminalColour\Contract\Style> */
     private $styles = [];
 
     /** @var \Testomat\TerminalColour\Contract\Style */
@@ -53,15 +53,15 @@ final class Stack
     /**
      * Pops a style from the stack.
      *
-     * @throws InvalidArgumentException When style tags incorrectly nested
+     * @throws \Testomat\TerminalColour\Exception\InvalidArgumentException When style tags incorrectly nested
      */
     public function pop(?StyleContract $style = null): StyleContract
     {
-        if ((is_countable($this->styles) ? \count($this->styles) : 0) === 0) {
+        if (\count($this->styles) === 0) {
             return $this->emptyStyle;
         }
 
-        if (null === $style) {
+        if ($style === null) {
             return array_pop($this->styles);
         }
 
@@ -81,7 +81,7 @@ final class Stack
      */
     public function getCurrent(): StyleContract
     {
-        if ((is_countable($this->styles) ? \count($this->styles) : 0) === 0) {
+        if (\count($this->styles) === 0) {
             return $this->emptyStyle;
         }
 

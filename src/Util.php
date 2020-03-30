@@ -47,7 +47,7 @@ final class Util
     public const TRUECOLOR_TERMINAL = 65535;
 
     /**
-     * @param false|null|resource|string $stream
+     * @param null|false|resource|string $stream
      */
     public static function getSupportedColor($stream = null): int
     {
@@ -95,7 +95,7 @@ final class Util
      * Reference: Symfony\Component\Console\Output\StreamOutput::hasColorSupport()
      * https://github.com/symfony/console
      *
-     * @param null|bool|resource $output A valid CLI output stream
+     * @param resource $output A valid CLI output stream
      *
      * @return bool true if the stream supports colorization, false otherwise
      */
@@ -128,13 +128,13 @@ final class Util
 
         $stat = fstat($output);
         // Check if formatted mode is S_IFCHR
-        return $stat && 0020000 === ($stat['mode'] & 0170000);
+        return \is_array($stat) && 0020000 === ((int) $stat['mode'] & 0170000);
         // @codeCoverageIgnoreEnd
     }
 
     private static function checkEnvVariable(string $varName, string $checkFor): bool
     {
-        if ($env = getenv($varName)) {
+        if (($env = getenv($varName)) !== false) {
             return strpos($env, $checkFor) !== false;
         }
 

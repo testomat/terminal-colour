@@ -65,6 +65,9 @@ final class Style extends AbstractStyle implements Color16AwareContract
         'light_white' => ['set' => 107, 'unset' => 49],
     ];
 
+    /**
+     * @param array<string, int|string> $effects
+     */
     public function __construct(?string $foreground = null, ?string $background = null, array $effects = [])
     {
         if ($foreground !== null) {

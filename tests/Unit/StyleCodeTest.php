@@ -54,7 +54,7 @@ final class StyleCodeTest extends TestCase
     /**
      * @dataProvider provideSetForegroundCases
      */
-    public function testSetForeground($fg, string $expected, $colorLevel = 16): void
+    public function testSetForeground($fg, string $expected, int $colorLevel = 16): void
     {
         $style = new StyleCode();
         $style->setColorLevel($colorLevel);
@@ -94,7 +94,7 @@ final class StyleCodeTest extends TestCase
     /**
      * @dataProvider provideSetBackgroundCases
      */
-    public function testSetBackground($bg, string $expected, $colorLevel = 16): void
+    public function testSetBackground($bg, string $expected, int $colorLevel = 16): void
     {
         $style = new StyleCode();
         $style->setColorLevel($colorLevel);

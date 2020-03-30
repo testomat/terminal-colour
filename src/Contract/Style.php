@@ -31,16 +31,22 @@ interface Style
 
     /**
      * Sets some specific style effect.
+     *
+     * @param string|array<string, int|string> $effect
      */
     public function setEffect($effect): void;
 
     /**
      * Unsets some specific style effect.
+     *
+     * @param string|array<string, int|string> $effect
      */
     public function unsetEffect($effect): void;
 
     /**
      * Sets multiple style effects at once.
+     *
+     * @param array<int, string|array<string, int|string>> $effects
      */
     public function setEffects(array $effects): void;
 
