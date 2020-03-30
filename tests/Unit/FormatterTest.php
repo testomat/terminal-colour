@@ -229,7 +229,7 @@ final class FormatterTest extends TestCase
     }
 
     /**
-     * @return iterable<string>
+     * @return iterable<array<int, string>>
      */
     public static function provideInlineStyleOptionsCases(): iterable
     {
@@ -296,13 +296,14 @@ final class FormatterTest extends TestCase
         string $terminalEmulator = 'foo'
     ): void {
         $prevTerminalEmulator = getenv('TERMINAL_EMULATOR');
+
         putenv('TERMINAL_EMULATOR=' . $terminalEmulator);
 
         try {
             self::assertEquals($expectedDecoratedOutput, (new Formatter(true))->format($input));
             self::assertEquals($expectedNonDecoratedOutput, (new Formatter(false))->format($input));
         } finally {
-            putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator ? "={$prevTerminalEmulator}" : ''));
+            putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator !== false ? "={$prevTerminalEmulator}" : ''));
         }
     }
 
@@ -387,6 +388,9 @@ EOF
         self::assertSame($expected, $formatter->formatAndWrap($message, $width));
     }
 
+    /**
+     * @return iterable<int, array<int, bool|int|string>>
+     */
     public static function provideFormatAndWrapCases(): iterable
     {
         return [

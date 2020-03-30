@@ -31,7 +31,7 @@ final class StackTest extends TestCase
     public function testPush(): void
     {
         $stack = new Stack();
-        $stack->push($s1 = new Style('white', 'black'));
+        $stack->push(new Style('white', 'black'));
         $stack->push($s2 = new Style('yellow', 'blue'));
 
         self::assertEquals($s2, $stack->getCurrent());
@@ -71,7 +71,7 @@ final class StackTest extends TestCase
         $stack = new Stack();
         $stack->push($s1 = new Style('white', 'black'));
         $stack->push($s2 = new Style('yellow', 'blue'));
-        $stack->push($s3 = new Style('green', 'red'));
+        $stack->push(new Style('green', 'red'));
 
         self::assertEquals($s2, $stack->pop($s2));
         self::assertEquals($s1, $stack->pop());

@@ -19,6 +19,7 @@ use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 use Testomat\TerminalColour\Style;
 use Testomat\TerminalColour\Tests\Unit\Traits\EffectsTestTrait;
+use Testomat\TerminalColour\Tests\Unit\Traits\HrefTestTrait;
 
 /**
  * @internal
@@ -31,9 +32,12 @@ use Testomat\TerminalColour\Tests\Unit\Traits\EffectsTestTrait;
 final class StyleTest extends TestCase
 {
     use EffectsTestTrait;
+    use HrefTestTrait;
 
     /**
      * @dataProvider provideConstructorCases
+     *
+     * @param array<string, int|string> $effects
      */
     public function testConstructor(?string $fg, ?string $bg, array $effects, string $expected): void
     {
@@ -42,6 +46,9 @@ final class StyleTest extends TestCase
         self::assertEquals($expected, $style->apply('foo'));
     }
 
+    /**
+     * @return iterable<int, array<int, null|array<int, string>|string>>
+     */
     public static function provideConstructorCases(): iterable
     {
         return [
@@ -62,6 +69,9 @@ final class StyleTest extends TestCase
         self::assertEquals($expected, $style->apply('foo'));
     }
 
+    /**
+     * @return array<int, array<int, null|string>>
+     */
     public static function provideSetForegroundCases(): iterable
     {
         return [
@@ -101,6 +111,9 @@ final class StyleTest extends TestCase
         self::assertEquals($expected, $style->apply('foo'));
     }
 
+    /**
+     * @return array<int, array<int, null|string>>
+     */
     public static function provideSetBackgroundCases(): iterable
     {
         return [
@@ -128,23 +141,6 @@ final class StyleTest extends TestCase
 
         $style = new Style();
         $style->setBackground(new stdClass());
-    }
-
-    public function testHref(): void
-    {
-        $prevTerminalEmulator = getenv('TERMINAL_EMULATOR');
-
-        putenv('TERMINAL_EMULATOR');
-
-        $style = new Style();
-
-        try {
-            $style->setHref('idea://open/?file=/path/SomeFile.php&line=12');
-
-            self::assertSame("\e]8;;idea://open/?file=/path/SomeFile.php&line=12\e\\some URL\e]8;;\e\\", $style->apply('some URL'));
-        } finally {
-            putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator ? "={$prevTerminalEmulator}" : ''));
-        }
     }
 
     /**

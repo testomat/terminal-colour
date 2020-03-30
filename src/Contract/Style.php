@@ -32,21 +32,21 @@ interface Style
     /**
      * Sets some specific style effect.
      *
-     * @param string|array<string, int|string> $effect
+     * @param array<string, int|string>|string $effect
      */
     public function setEffect($effect): void;
 
     /**
      * Unsets some specific style effect.
      *
-     * @param string|array<string, int|string> $effect
+     * @param array<string, int|string>|string $effect
      */
     public function unsetEffect($effect): void;
 
     /**
      * Sets multiple style effects at once.
      *
-     * @param array<int, string|array<string, int|string>> $effects
+     * @param array<int, array<string, int|string>|string> $effects
      */
     public function setEffects(array $effects): void;
 
@@ -54,6 +54,11 @@ interface Style
      * Sets the supported color level of the terminal.
      */
     public function setColorLevel(int $color): void;
+
+    /**
+     * Sets the given url for the terminal, if supported.
+     */
+    public function setHref(string $url): void;
 
     /**
      * Applies the style to a given text.

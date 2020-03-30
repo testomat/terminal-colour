@@ -128,7 +128,7 @@ final class Util
 
         $stat = fstat($output);
         // Check if formatted mode is S_IFCHR
-        return \is_array($stat) && 0020000 === ((int) $stat['mode'] & 0170000);
+        return \is_array($stat) && 0020000 === ($stat['mode'] & 0170000);
         // @codeCoverageIgnoreEnd
     }
 

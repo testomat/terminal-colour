@@ -49,9 +49,7 @@ abstract class AbstractStyle implements StyleContract
     /** @var null|string */
     protected $href;
 
-    /**
-     * @var array<int, array<string, int|string>>
-     */
+    /** @var array<int, array<string, int|string>> */
     protected $effects = [];
 
     /** @var null|bool */
@@ -152,7 +150,7 @@ abstract class AbstractStyle implements StyleContract
     final public function apply(string $text): string
     {
         if ($this->handlesHrefGracefully === null) {
-            $this->handlesHrefGracefully = getenv('TERMINAL_EMULATOR') !== 'JetBrains-JediTerm' && getenv('KONSOLE_VERSION') !== false;
+            $this->handlesHrefGracefully = getenv('TERMINAL_EMULATOR') !== 'JetBrains-JediTerm' && getenv('KONSOLE_VERSION') === false;
         }
 
         $setCodes = [];

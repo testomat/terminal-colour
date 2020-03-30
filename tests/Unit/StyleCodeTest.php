@@ -19,6 +19,7 @@ use Testomat\TerminalColour\Contract\Style as StyleContract;
 use Testomat\TerminalColour\Exception\InvalidArgumentException;
 use Testomat\TerminalColour\StyleCode;
 use Testomat\TerminalColour\Tests\Unit\Traits\EffectsTestTrait;
+use Testomat\TerminalColour\Tests\Unit\Traits\HrefTestTrait;
 
 /**
  * @internal
@@ -31,17 +32,23 @@ use Testomat\TerminalColour\Tests\Unit\Traits\EffectsTestTrait;
 final class StyleCodeTest extends TestCase
 {
     use EffectsTestTrait;
+    use HrefTestTrait;
 
     /**
      * @dataProvider provideConstructorCases
+     *
+     * @param array<int, array<int, int>|string> $effects
      */
-    public function testConstructor($fg, $bg, array $effects, string $expected): void
+    public function testConstructor(?int $fg, ?int $bg, array $effects, string $expected): void
     {
         $style = new StyleCode($fg, $bg, $effects);
 
         self::assertEquals($expected, $style->apply('foo'));
     }
 
+    /**
+     * @return array<int, array<int, null|array|int|string>>
+     */
     public static function provideConstructorCases(): iterable
     {
         return [
@@ -54,7 +61,7 @@ final class StyleCodeTest extends TestCase
     /**
      * @dataProvider provideSetForegroundCases
      */
-    public function testSetForeground($fg, string $expected, int $colorLevel = 16): void
+    public function testSetForeground(?int $fg, string $expected, int $colorLevel = 16): void
     {
         $style = new StyleCode();
         $style->setColorLevel($colorLevel);
@@ -63,6 +70,9 @@ final class StyleCodeTest extends TestCase
         self::assertEquals($expected, $style->apply('foo'));
     }
 
+    /**
+     * @return array<int, array<int, null|int|string>>
+     */
     public static function provideSetForegroundCases(): iterable
     {
         return [
@@ -94,7 +104,7 @@ final class StyleCodeTest extends TestCase
     /**
      * @dataProvider provideSetBackgroundCases
      */
-    public function testSetBackground($bg, string $expected, int $colorLevel = 16): void
+    public function testSetBackground(?int $bg, string $expected, int $colorLevel = 16): void
     {
         $style = new StyleCode();
         $style->setColorLevel($colorLevel);
@@ -103,6 +113,9 @@ final class StyleCodeTest extends TestCase
         self::assertEquals($expected, $style->apply('foo'));
     }
 
+    /**
+     * @return array<int, array<int, null|int|string>>
+     */
     public static function provideSetBackgroundCases(): iterable
     {
         return [
