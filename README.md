@@ -1,6 +1,6 @@
 # Terminal color
 
-* The easiest  style your text in the command line / terminal
+* The easiest way to style your text in the command line / terminal
 * Change text color to red, green, yellow ...
 * Change background color to red, green, yellow ...
 * Change text style to bold, dim, underlined, blink ...
@@ -14,7 +14,7 @@ Run
 $ composer require testomat/terminal-colour
 ```
 
-> note : By default, the Windows command console doesn’t support output coloring.
+> Note : By default, the Windows command console doesn’t support output coloring.
 > This library disables output coloring for Windows systems.
 > But if your commands or scripts invoke other scripts which emit color sequences, they will be wrongly displayed as raw escape characters.
 > Install the [Cmder](https://cmder.net/), [ConEmu](https://conemu.github.io/), [ANSICON](https://github.com/adoxa/ansicon/releases) or [Mintty](https://mintty.github.io/) (used by default in GitBash and Cygwin) to add coloring support to your Windows command console.
