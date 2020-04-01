@@ -70,7 +70,7 @@ final class Util
     /**
      * Returns if the file descriptor is an interactive terminal or not.
      *
-     * Normally, we want to use a resource as a parameter, yet sadly it's not always awailable,
+     * Normally, we want to use a resource as a parameter, yet sadly it's not always available,
      * eg when running code in interactive console (`php -a`), STDIN/STDOUT/STDERR constants are not defined.
      *
      * @codeCoverageIgnore

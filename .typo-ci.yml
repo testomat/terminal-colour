@@ -39,6 +39,8 @@ excluded_files:
   - "phpunit.xml"
   - "psalm.xml"
   - "psalm-baseline.xml"
+  - "src/**/*.php"
+  - "tests/**/*.php"
 
 # Any typos we should ignore?
 excluded_words:
