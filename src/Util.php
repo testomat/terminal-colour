@@ -47,13 +47,79 @@ final class Util
     public const TRUECOLOR_TERMINAL = 65535;
 
     /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const STDIN = 0;
+
+    /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const STDOUT = 1;
+
+    /**
+     * @noRector \Rector\SOLID\Rector\ClassConst\PrivatizeLocalClassConstantRector
+     *
+     * @var int
+     */
+    public const STDERR = 2;
+
+    /**
+     * Returns if the file descriptor is an interactive terminal or not.
+     *
+     * Normally, we want to use a resource as a parameter, yet sadly it's not always awailable,
+     * eg when running code in interactive console (`php -a`), STDIN/STDOUT/STDERR constants are not defined.
+     *
+     * @codeCoverageIgnore
+     *
+     * @param int|resource $fileDescriptor
+     */
+    public static function isInteractive($fileDescriptor = self::STDOUT): bool
+    {
+        if (\is_resource($fileDescriptor)) {
+            // These functions require a descriptor that is a real resource, not a numeric ID of it
+            /** @noRector \Rector\Renaming\Rector\Function_\RenameFunctionRector */
+            if (\function_exists('stream_isatty') && @stream_isatty($fileDescriptor)) {
+                return true;
+            }
+
+            $stat = @fstat(\STDOUT);
+            // Check if formatted mode is S_IFCHR
+            return \is_array($stat) && 0020000 === ($stat['mode'] & 0170000);
+        }
+
+        return \function_exists('posix_isatty') && @posix_isatty($fileDescriptor);
+    }
+
+    /**
+     * Returns the number of columns of the terminal.
+     *
+     * @codeCoverageIgnore
+     */
+    public static function getNumberOfColumns(): int
+    {
+        if (! self::isInteractive(\defined('STDIN') ? \STDIN : self::STDIN)) {
+            return 80;
+        }
+
+        if (\DIRECTORY_SEPARATOR === '\\') {
+            return self::getNumberOfColumnsWindows();
+        }
+
+        return self::getNumberOfColumnsInteractive();
+    }
+
+    /**
      * @param null|false|resource|string $stream
      */
     public static function getSupportedColor($stream = null): int
     {
         $colorSupport = self::NO_COLOR_TERMINAL;
 
-        if ($stream === false) {
+        if ($stream === false || ($stream === null && ! \defined('STDOUT'))) {
             return $colorSupport;
         }
 
@@ -106,7 +172,7 @@ final class Util
         }
 
         // @codeCoverageIgnoreStart
-        if (\defined('PHP_WINDOWS_VERSION_BUILD')) {
+        if (\DIRECTORY_SEPARATOR === '\\') {
             try {
                 return (\function_exists('sapi_windows_vt100_support') && \Safe\sapi_windows_vt100_support($output))
                     || getenv('ANSICON') !== false
@@ -117,18 +183,7 @@ final class Util
             }
         }
 
-        if (\function_exists('stream_isatty')) {
-            /** @noRector \Rector\Renaming\Rector\Function_\RenameFunctionRector */
-            return @stream_isatty($output);
-        }
-
-        if (\function_exists('posix_isatty')) {
-            return @posix_isatty($output);
-        }
-
-        $stat = fstat($output);
-        // Check if formatted mode is S_IFCHR
-        return \is_array($stat) && 0020000 === ($stat['mode'] & 0170000);
+        return self::isInteractive($output);
         // @codeCoverageIgnoreEnd
     }
 
@@ -139,5 +194,62 @@ final class Util
         }
 
         return false;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    private static function getNumberOfColumnsInteractive(): int
+    {
+        /** @noRector Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector */
+        if (\function_exists('shell_exec') && \Safe\preg_match('#\d+ (\d+)#', shell_exec('stty size') ?: '', $match) === 1 && (int) $match[1] > 0) {
+            return (int) $match[1];
+        }
+
+        /** @noRector Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector */
+        if (\function_exists('shell_exec') && \Safe\preg_match('#columns = (\d+);#', shell_exec('stty') ?: '', $match) === 1 && (int) $match[1] > 0) {
+            return (int) $match[1];
+        }
+
+        return 80;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    private static function getNumberOfColumnsWindows(): int
+    {
+        $ansicon = getenv('ANSICON');
+        $columns = 80;
+
+        if (\is_string($ansicon) && \Safe\preg_match('/^(\d+)x\d+ \(\d+x(\d+)\)$/', trim($ansicon), $matches)) {
+            $columns = (int) $matches[1];
+        } elseif (\function_exists('proc_open')) {
+            $process = proc_open(
+                'mode CON',
+                [
+                    1 => ['pipe', 'w'],
+                    2 => ['pipe', 'w'],
+                ],
+                $pipes,
+                null,
+                null,
+                ['suppress_errors' => true]
+            );
+
+            if (\is_resource($process)) {
+                $info = \Safe\stream_get_contents($pipes[1]);
+
+                \Safe\fclose($pipes[1]);
+                \Safe\fclose($pipes[2]);
+                proc_close($process);
+
+                if (\Safe\preg_match('/--------+\r?\n.+?(\d+)\r?\n.+?(\d+)\r?\n/', $info, $matches) !== 0) {
+                    $columns = (int) $matches[2];
+                }
+            }
+        }
+
+        return $columns - 1;
     }
 }
