@@ -91,6 +91,17 @@
     <MixedOperand occurrences="1">
       <code>$stat['mode']</code>
     </MixedOperand>
+    <PossiblyNullArrayAccess occurrences="6">
+      <code>$match[1]</code>
+      <code>$match[1]</code>
+      <code>$match[1]</code>
+      <code>$match[1]</code>
+      <code>$matches[1]</code>
+      <code>$matches[2]</code>
+    </PossiblyNullArrayAccess>
+    <PossiblyUnusedMethod occurrences="1">
+      <code>getNumberOfColumns</code>
+    </PossiblyUnusedMethod>
     <RedundantConditionGivenDocblockType occurrences="1">
       <code>\gettype($stream)</code>
     </RedundantConditionGivenDocblockType>

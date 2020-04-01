@@ -201,13 +201,25 @@ final class Util
      */
     private static function getNumberOfColumnsInteractive(): int
     {
-        /** @noRector Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector */
-        if (\function_exists('shell_exec') && \Safe\preg_match('#\d+ (\d+)#', shell_exec('stty size') ?: '', $match) === 1 && (int) $match[1] > 0) {
-            return (int) $match[1];
+        $size = '';
+        $shell = false;
+
+        if (\function_exists('shell_exec') && \is_string($exec = shell_exec('stty size')) && $exec !== '') {
+            $shell = true;
+            $size = $exec;
         }
 
         /** @noRector Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector */
-        if (\function_exists('shell_exec') && \Safe\preg_match('#columns = (\d+);#', shell_exec('stty') ?: '', $match) === 1 && (int) $match[1] > 0) {
+        if ($shell && \Safe\preg_match('#\d+ (\d+)#', (string) $size, $match) === 1 && (int) $match[1] > 0) {
+            return (int) $match[1];
+        }
+
+        if (\function_exists('shell_exec') && \is_string($exec = shell_exec('stty')) && $exec !== '') {
+            $size = $exec;
+        }
+
+        /** @noRector Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector */
+        if ($shell && \Safe\preg_match('#columns = (\d+);#', (string) $size, $match) === 1 && (int) $match[1] > 0) {
             return (int) $match[1];
         }
 
@@ -222,7 +234,7 @@ final class Util
         $ansicon = getenv('ANSICON');
         $columns = 80;
 
-        if (\is_string($ansicon) && \Safe\preg_match('/^(\d+)x\d+ \(\d+x(\d+)\)$/', trim($ansicon), $matches)) {
+        if (\is_string($ansicon) && \Safe\preg_match('/^(\d+)x\d+ \(\d+x(\d+)\)$/', trim($ansicon), $matches) === 1) {
             $columns = (int) $matches[1];
         } elseif (\function_exists('proc_open')) {
             $process = proc_open(
