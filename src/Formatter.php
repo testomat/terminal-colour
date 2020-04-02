@@ -28,7 +28,7 @@ final class Formatter implements WrappableFormatterContract
      *
      * @var string
      */
-    public const VERSION = '1.1.0';
+    public const VERSION = '1.1.1';
 
     /** @var bool */
     private $decorated;
