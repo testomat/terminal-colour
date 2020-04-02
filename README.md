@@ -117,6 +117,21 @@ $formatter->format('<href=https://narrowspark.com>Narrowspark Homepage</>');
 
 If your terminal belongs to the [list of terminal emulators that support links][1] you can click on the "Narrowspark Homepage" text to open its URL in your default browser. Otherwise, you’ll see "Narrowspark Homepage" as regular text and the URL will be lost.
 
+### Terminal Util
+You want to know, what color or how any columns your terminal supports, than you can call:
+```php
+<?php
+
+declare(strict_types=1);
+
+use Testomat\TerminalColour\Util;
+
+echo Util::getNumberOfColumns(); // returns the number of the columns
+
+echo Util::getSupportedColor(); // returns the supported color as int
+
+```
+
 ## Links
 [Colors 3/4 bit](https://en.wikipedia.org/wiki/ANSI_escape_code#3/4_bit)
 

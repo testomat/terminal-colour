@@ -4,7 +4,7 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     cacheDirectory="./.build/psalm"
-    errorBaseline="psalm-baseline.xml"
+    errorBaseline="./psalm-baseline.xml"
     resolveFromConfigFile="true"
     allowStringToStandInForClass='true'
     findUnusedCode='true'
