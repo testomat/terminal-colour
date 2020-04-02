@@ -67,6 +67,14 @@ final class Util
      */
     public const STDERR = 2;
 
+    /** @var null|int */
+    private static $colorCache;
+
+    public static function resetColorCache(): void
+    {
+        self::$colorCache = null;
+    }
+
     /**
      * Returns if the file descriptor is an interactive terminal or not.
      *
@@ -117,10 +125,14 @@ final class Util
      */
     public static function getSupportedColor($stream = null): int
     {
+        if (self::$colorCache !== null) {
+            return self::$colorCache;
+        }
+
         $colorSupport = self::NO_COLOR_TERMINAL;
 
         if ($stream === false || ($stream === null && ! \defined('STDOUT'))) {
-            return $colorSupport;
+            return self::$colorCache = $colorSupport;
         }
 
         $stream = $stream ?? \STDOUT;
@@ -144,7 +156,7 @@ final class Util
             }
         }
 
-        return $colorSupport;
+        return self::$colorCache = $colorSupport;
     }
 
     /**

@@ -25,8 +25,20 @@ use Testomat\TerminalColour\Util;
  */
 final class UtilTest extends TestCase
 {
-    public function testSupportsColorWithFalseValue(): void
+    protected function tearDown(): void
     {
+        Util::resetColorCache();
+    }
+
+    public function testGetSupportedColorWithFalseValue(): void
+    {
+        self::assertSame(Util::NO_COLOR_TERMINAL, Util::getSupportedColor(false));
+    }
+
+    public function testGetSupportedColorColorCache(): void
+    {
+        Util::getSupportedColor(false);
+
         self::assertSame(Util::NO_COLOR_TERMINAL, Util::getSupportedColor(false));
     }
 
