@@ -46,6 +46,8 @@ final class UtilTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
+        Util::resetColorCache();
+
         Util::getSupportedColor('');
     }
 
