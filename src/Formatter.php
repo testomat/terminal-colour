@@ -31,7 +31,7 @@ final class Formatter implements WrappableFormatterContract
     public const VERSION = '1.1.1';
 
     /** @var bool */
-    private $decorated;
+    private $decorated = false;
 
     /** @var array<string, \Testomat\TerminalColour\Contract\Style> */
     private $styles = [];
@@ -196,12 +196,16 @@ final class Formatter implements WrappableFormatterContract
             if (! $open && ! $tag) {
                 // </>
                 $this->styleStack->pop();
-            } elseif (null === $style = $this->createStyleFromString($tag)) {
-                $output .= $this->applyCurrentStyle($text, $output, $width, $currentLineLength);
-            } elseif ($open) {
-                $this->styleStack->push($style);
-            } else {
-                $this->styleStack->pop($style);
+            } elseif (\is_string($tag)) {
+                $style = $this->createStyleFromString($tag);
+
+                if ($style === null) {
+                    $output .= $this->applyCurrentStyle($text, $output, $width, $currentLineLength);
+                } elseif ($open) {
+                    $this->styleStack->push($style);
+                } else {
+                    $this->styleStack->pop($style);
+                }
             }
         }
 
