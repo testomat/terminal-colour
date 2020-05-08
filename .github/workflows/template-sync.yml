@@ -1,0 +1,19 @@
+name: 'Template Sync'
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: narrowspark/template-sync-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_author_name: prisis
+          git_author_email: d.bannert@anolilab.de
+          template_repository: narrowspark/php-library-template
+          ref: refs/heads/master
