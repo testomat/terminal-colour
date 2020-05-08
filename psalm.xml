@@ -4,7 +4,7 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     cacheDirectory="./.build/psalm"
-    errorBaseline="./psalm-baseline.xml"
+    errorBaseline="./.build/psalm-baseline.xml"
     resolveFromConfigFile="true"
     allowStringToStandInForClass='true'
     findUnusedCode='true'
@@ -51,12 +51,12 @@
         <InvalidDocblock errorLevel="error"/>
         <MisplacedRequiredParam errorLevel="error"/>
 
-        <PropertyNotSetInConstructor errorLevel="error"/>
+        <PropertyNotSetInConstructor errorLevel="suppress"/>
         <MissingConstructor errorLevel="error"/>
         <MissingClosureParamType errorLevel="error"/>
         <MissingParamType errorLevel="error"/>
         <RedundantCondition errorLevel="error"/>
-        <DocblockTypeContradiction errorLevel="suppress"/>
+        <DocblockTypeContradiction errorLevel="error"/>
         <RedundantConditionGivenDocblockType errorLevel="error"/>
         <RawObjectIteration errorLevel="error"/>
         <InvalidStringClass errorLevel="error"/>

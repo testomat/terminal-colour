@@ -2,7 +2,7 @@ imports:
     - { resource: './vendor/thecodingmachine/safe/rector-migrate-0.7.yml' }
 
 parameters:
-    php_version_features: '7.3'
+    php_version_features: '7.4'
 
     project_type: "open-source"
 
@@ -21,3 +21,4 @@ parameters:
         - 'php71'
         - 'php72'
         - 'php73'
+        - 'php74'
