@@ -1,4 +1,4 @@
-name: 'Template Sync'
+name: 'Github Template Sync'
 
 on:
   schedule:
@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - uses: narrowspark/template-sync-action@1.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
