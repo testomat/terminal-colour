@@ -31,7 +31,7 @@ final class Formatter implements WrappableFormatterContract
     public const VERSION = '1.1.1';
 
     /** @var bool */
-    private $decorated;
+    private $decorated = false;
 
     /** @var array<string, \Testomat\TerminalColour\Contract\Style> */
     private $styles = [];
