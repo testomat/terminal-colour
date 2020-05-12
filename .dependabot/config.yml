@@ -17,7 +17,7 @@ update_configs:
       include_scope: true
       prefix: "Build"
     default_labels:
-      - "dependency"
+      - "Dependency update"
       - "Changed"
 
   - package_manager: "php:composer"
@@ -32,7 +32,7 @@ update_configs:
       include_scope: true
       prefix: "Build"
     default_labels:
-      - "dependency"
+      - "Dependency update"
 
   - package_manager: "javascript"
     directory: "/"
@@ -45,4 +45,4 @@ update_configs:
       include_scope: true
       prefix: "Build"
     default_labels:
-      - "dependency"
+      - "Dependency update"
