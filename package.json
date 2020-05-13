@@ -64,7 +64,7 @@
                                 "composer.json"
                             ],
                             "from": "\"dev-master\": \".*\"",
-                            "to": "\"dev-master\": \"${nextRelease.version}\"",
+                            "to": "\"dev-master\": \"${nextRelease.version.replace(/\\.\\w+$/, '-dev')}\"",
                             "results": [
                                 {
                                     "file": "composer.json",
