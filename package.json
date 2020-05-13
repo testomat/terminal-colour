@@ -86,7 +86,12 @@
             ],
             "@semantic-release/changelog",
             "@semantic-release/github",
-            "@semantic-release/git"
+            [
+                "@semantic-release/git",
+                {
+                    "assets": ["composer.json", "src/*", "UPGRADE.md", "LICENSE.md", "CHANGELOG.md"]
+                }
+            ]
         ]
     },
     "config": {
