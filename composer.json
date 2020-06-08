@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^9.2.1",
+        "phpunit/phpunit": "^9.2.2",
         "thecodingmachine/phpstan-safe-rule": "^1.0.0"
     },
     "config": {
