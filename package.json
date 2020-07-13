@@ -26,9 +26,9 @@
     "manualPublishMessage": "This repository is configured to use semantic-release for its releases. Please do not release manually.\n"
   },
   "dependencies": {
-    "@commitlint/cli": "^9.0.1",
-    "@commitlint/config-conventional": "^9.0.1",
-    "@commitlint/core": "^9.0.1",
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "@commitlint/core": "^9.1.1",
     "@textlint-rule/textlint-rule-no-invalid-control-character": "^1.2.0",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
     "@textlint-rule/textlint-rule-preset-google": "^0.1.2",
