@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^9.1.4"
+        "phpunit/phpunit": "^9.2.6"
     },
     "config": {
         "preferred-install": "dist",
