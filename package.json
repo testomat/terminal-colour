@@ -35,7 +35,7 @@
     "conventional-changelog-conventionalcommits": "^4.3.0",
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^4.2.5",
-    "textlint": "^11.7.5",
+    "textlint": "^11.7.6",
     "textlint-rule-abbr-within-parentheses": "^1.0.2",
     "textlint-rule-alex": "^2.0.0",
     "textlint-rule-apostrophe": "^2.0.0",
