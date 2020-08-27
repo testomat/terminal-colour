@@ -33,7 +33,7 @@
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
     "@textlint-rule/textlint-rule-preset-google": "^0.1.2",
     "conventional-changelog-conventionalcommits": "^4.4.0",
-    "cz-conventional-changelog": "^3.2.1",
+    "cz-conventional-changelog": "^3.3.0",
     "husky": "^4.2.5",
     "textlint": "^11.7.6",
     "textlint-rule-abbr-within-parentheses": "^1.0.2",
