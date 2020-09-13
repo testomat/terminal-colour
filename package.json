@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/core": "^11.0.0",
     "@textlint-rule/textlint-rule-no-invalid-control-character": "^1.2.0",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
