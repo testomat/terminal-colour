@@ -1,38 +1,43 @@
 {
+    "name": "narrowspark/tools",
     "description": "tools",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "license": "proprietary",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "narrowspark/coding-standard": "^5.1.0",
         "wikimedia/composer-merge-plugin": "^1.4.1"
     },
     "extra": {
-        "prefetcher": {
-            "require": {
-                "phpunit/phpunit": "^8.0 || ^9.0",
-                "friendsofphp/php-cs-fixer": "^2.16.0"
-            }
-        },
         "merge-plugin": {
             "include": [
                 "../composer.json"
             ],
             "merge-extra": false,
             "merge-scripts": false
+        },
+        "prefetcher": {
+            "require": {
+                "phpunit/phpunit": "^9.0",
+                "friendsofphp/php-cs-fixer": "^2.16.0"
+            }
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
-        "changelog": "changelog-generator generate --config=\"./../.changelog\" --file=./../CHANGELOG.md --prepend",
+        "changelog": "changelog-generator generate --config=\"./../.changelog\" --file=\"./../CHANGELOG.md\" --prepend",
         "cs": "php-cs-fixer fix --config=\"./../.php_cs\" --ansi",
         "cs:check": "php-cs-fixer fix --config=\"./../.php_cs\" --ansi --dry-run",
-        "phpstan": "phpstan analyse -c ./../phpstan.neon --ansi",
-        "psalm": "psalm --threads=$(nproc)",
-        "psalm:fix": "psalm --alter --issues=all --threads=$(nproc)",
         "infection": "infection --configuration=\"./../infection.json\" -j$(nproc) --ansi",
-        "rector-src": "rector process ../src/ --config=./rector-src.yaml --ansi --dry-run",
-        "rector-src:fix": "rector process ../src/ --config=./rector-src.yaml --ansi",
-        "rector-tests": "rector process ../tests/ --config=./rector-tests.yaml --ansi --dry-run",
-        "rector-tests:fix": "rector process ../tests/ --config=./rector-tests.yaml --ansi"
+        "phpstan": "phpstan analyse -c ./../phpstan.neon --ansi",
+        "phpstan:baseline": "phpstan analyse -c ./../phpstan.neon --ansi --generate-baseline",
+        "psalm": "psalm --diff --diff-methods --threads=$(nproc)",
+        "psalm:baseline": "psalm --threads=$(nproc) --set-baseline=./.build/psalm-baseline.xml",
+        "psalm:fix": "psalm --alter --issues=all --threads=$(nproc)",
+        "rector-src": "rector process ./../src/ --config=./rector-src.yaml --ansi --dry-run",
+        "rector-src:fix": "rector process ./../src/ --config=./rector-src.yaml --ansi",
+        "rector-tests": "rector process ./../tests/ --config=./rector-tests.yaml --ansi --dry-run",
+        "rector-tests:fix": "rector process ./../tests/ --config=./rector-tests.yaml --ansi",
+        "req:check": "composer-require-checker check --config-file=./../composer-require.json ./../composer.json"
     }
 }

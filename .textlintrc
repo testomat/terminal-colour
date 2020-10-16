@@ -26,12 +26,10 @@
             "execution",
             "executed",
             "remain",
-            "execute",
-            "color",
-            "colors"
+            "execute"
         ]
     },
-    "@textlint-rule/preset-google": false,
+    "@textlint-rule/preset-google": true,
     "write-good": {
       "passive": false,
       "eprime": false,
@@ -129,6 +127,7 @@
         ["pretty", ""],
         ["easy", ""],
         ["interesting", ""],
+        ["way to", ""],
         ["In order to", "To"],
         ["in order to", "to"],
         ["might", ""],

@@ -8,13 +8,12 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
  *
- * @see https://github.com/testomat/terminal-colour
+ * @see https://github.com/narrowspark/php-library-template
  */
 
-namespace Testomat\TerminalColour\Tests\AutoReview;
+namespace Narrowspark\Library\Tests\AutoReview;
 
 use PHPUnit\Framework\TestCase;
-use Testomat\TerminalColour\Formatter;
 
 /**
  * @internal
@@ -27,11 +26,18 @@ use Testomat\TerminalColour\Formatter;
  */
 final class ComposerTest extends TestCase
 {
+    /**
+     * Should be removed, And a class version should be used.
+     *
+     * @var string
+     */
+    private const VERSION = '1.0.0';
+
     public function testBranchAlias(): void
     {
         /** @var array<string, mixed> $composerJson */
         $composerJson = json_decode(
-            (string) file_get_contents(__DIR__ . '/../../composer.json'),
+            \Safe\file_get_contents(__DIR__ . '/../../composer.json'),
             true,
             512,
             \JSON_THROW_ON_ERROR
@@ -45,7 +51,7 @@ final class ComposerTest extends TestCase
         }
 
         self::assertSame(
-            ['dev-master' => $this->convertAppVersionToAliasedVersion(Formatter::VERSION)],
+            ['dev-master' => $this->convertAppVersionToAliasedVersion(self::VERSION)],
             $composerJson['extra']['branch-alias']
         );
     }
@@ -54,6 +60,6 @@ final class ComposerTest extends TestCase
     {
         $parts = explode('.', $version, 3);
 
-        return sprintf('%d.%d-dev', $parts[0], $parts[1]);
+        return \Safe\sprintf('%d.%d-dev', $parts[0], $parts[1]);
     }
 }

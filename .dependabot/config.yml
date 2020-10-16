@@ -14,10 +14,12 @@ update_configs:
       - match:
           dependency_type: "development"
     commit_message:
+      prefix: "fix"
+      prefix_development: "chore"
       include_scope: true
-      prefix: "Build"
     default_labels:
-      - "dependency"
+      - "Dependency update"
+      - "Changed"
 
   - package_manager: "php:composer"
     directory: "/.build"
@@ -28,10 +30,11 @@ update_configs:
           dependency_type: "production"
           update_type: "semver:patch"
     commit_message:
+      prefix: "fix"
+      prefix_development: "chore"
       include_scope: true
-      prefix: "Build"
     default_labels:
-      - "dependency"
+      - "Dependency update"
 
   - package_manager: "javascript"
     directory: "/"
@@ -41,7 +44,8 @@ update_configs:
       - match:
           dependency_type: "all"
     commit_message:
+      prefix: "fix"
+      prefix_development: "chore"
       include_scope: true
-      prefix: "Build"
     default_labels:
-      - "dependency"
+      - "Dependency update"
